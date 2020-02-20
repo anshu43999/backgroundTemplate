@@ -1,0 +1,108 @@
+@charset "UTF-8";
+.el-header {
+    height: 0.6rem!important;
+    line-height: 0.6rem;
+    padding: 0 !important;
+    position: relative;
+    z-index: 6;
+}
+
+div.header {
+    width: 100%;
+    height: 100%;
+    background: #f4f3f3;
+}
+
+div.header .logo {
+    z-index: 999;
+    float: left;
+    height: 100%;
+    margin-left: 0.74rem;
+}
+
+div.header .logoImg {
+    float: left;
+    margin-top: 0.1rem;
+}
+
+.systemName{
+	line-height: 0.6rem;
+	letter-spacing: 2px;
+	color: #202020;
+	font-size: 0.24rem;
+	margin-left: 0.24rem;
+}
+
+/*头部管理员信息*/
+div.header div.headerR {
+	width: 2rem;
+	height: 0.5rem;
+    position: absolute;
+	top:0;
+	bottom:0;
+	margin: auto;
+	right: 0.41rem;
+    padding: 0.1rem 0;
+}
+
+.block {
+    float: left;
+    width: 0.31rem;
+    height: 0.31rem;
+    background-color: #d20002;
+    box-shadow: 0px -1px 2px 0px rgba(120, 23, 23, 0.75);
+    border-radius: 50%;
+    color: #fff;
+    line-height: 0.31rem;
+    text-align: center;
+    position: relative;
+}
+
+.message{
+    width: 0.12rem;
+    height: 0.12rem;
+    background: #ffe23e;
+    border-radius: 50%;
+    position: absolute;
+    right: -11%;
+    bottom: 0;
+    text-align: center;
+    line-height: 0.12rem;
+    color: #003333;
+    font-size: 8px;
+}
+
+/*分割线*/
+.split {
+    width: 1px;
+    height: 0.32rem;
+    background: #d6313a;
+    float: left;
+    margin: 0 0.13rem;
+}
+
+.userInfo{
+    /* width: 0.94rem; */
+    height: 0.31rem;
+    float: left;
+    line-height: 0.31rem;
+}
+
+.userInfo .userIcon{
+    width: 0.31rem;
+    border-radius: 50%;
+    height: 0.31rem;
+    float: left;
+}
+
+.userInfo span{
+    margin-left: 0.04rem;
+    margin-right: 0.02rem;
+    font-size: 0.12rem;
+    float: left;
+}
+
+.userInfo .iconfont{
+    float: left;
+    font-size: 0.12rem;
+}
