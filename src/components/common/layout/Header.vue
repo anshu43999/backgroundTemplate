@@ -6,17 +6,31 @@
             <span class="systemName">12110 短信报警平台数据接口系统</span>
         </div>
         <!--		用户信息-->
-        <div class="headerR">
-            <div class="block">
-                <i class="iconfont iconbell"></i>
-<!--                <div class="message">{{msgNum}}</div>-->
+        <div class="headerR" @click="exit">
+            <div class="bell">
+                <img class="bell_img" src="static/images/header/bell.png" alt="">
+<!--                <div class="message"></div>-->
             </div>
-            <div class="split"></div>
+            <div class="info">
+                <img class="bell_img" src="static/images/header/info.png" alt="">
+            </div>
             <div class="userInfo">
-                <el-avatar class="userIcon" shape="square" :src="squareUrl"></el-avatar>
-                <span>{{userName}}</span>
-                <!-- <i class="iconfont iconxiala-"></i> -->
+                <el-avatar class="userIcon" shape="square" :src="user.squareUrl"></el-avatar>
+                <!-- <span class="username">{{user.userName}}</span>
+                 <i class="iconfont iconxiajiantou"></i> -->
+                <el-dropdown @command="handleCommand">
+                    <span class="el-dropdown-link">
+                        <span class="username">{{user.userName}}</span>
+                        <i class="iconfont iconxiajiantou"></i>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item command="personalCenter">个人中心</el-dropdown-item>
+                        <el-dropdown-item command="exit">退出</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+
             </div>
+           
         </div>
     </div>
 </template>
@@ -32,44 +46,44 @@
         methods: {
             // ...mapMutations(['logout']),
             // ...mapActions([]),
-            exit() {
-                // this.logout() ;
-                // console.log(this.$store.state.userName);
-                this.$router.push({path: '/login'});
-                // this.logout()
-            },
+       
+            handleCommand(command) {
+                switch(command){
+                    case 'personalCenter' :          
+                            this.$emit('operate','personalCenter')
+                    break;
+                    case 'exit' : this.$confirm('您要退出登录, 是否继续?', '提示', {
+                                        confirmButtonText: '确定',
+                                        cancelButtonText: '取消',
+                                        type: 'warning'
+                                    }).then(() => {
+                                        //点击确定的回调
+                                        this.$router.push({path: '/login'});
+                                    }).catch(() => {
+                                        //点击取消的回调
+                                        this.isExit=false;
+                                    }); 
+                    break;
 
-            // cut(){
-            // 	// console.log(this.userBSF);
-            // 	if(this.userName =='admin'){
-            // 		this.squareUrl4 = this.squareUrl
-            // 	}else{
-            // 		this.squareUrl4 = this.squareUrl2
-            // 	}
-            // }
-        },
-        mounted() {
-            // this.cut();
+
+                }
+
+                
+            },
+            exit() {
+                this.isExit=true;
+            },
         },
         data() {
             return {
-                squareUrl: 'static/images/header/admin.png',
-                userName: 'admin',
-                msgNum:2
+                user:{
+                    squareUrl: 'static/images/header/admin.png',
+                    userName: '太原市公安局110指挥中心'
+                },
+                msgNum:2,
+                isExit:false
             }
         }
     }
 </script>
 
-
-<style lang="scss">
-    .exit {
-        cursor: pointer;
-    }
-    .header{
-        // background: red !important;
-        background: url("../../../../public/static/images/common/top.png") no-repeat center top  !important;
-
-    }
-
-</style>

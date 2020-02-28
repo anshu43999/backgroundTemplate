@@ -2,7 +2,7 @@
     <div id="layOut">
         <el-container class="containerOut">
             <el-header>
-                <Tpms-header></Tpms-header>
+                <Tpms-header @operate='operate'></Tpms-header>
             </el-header>
             <el-container class="containerInner">
                 <!-- <el-aside width="3rem" style="background: linear-gradient( rgba(17,81,147,1), rgba(59,62,130,1))"> -->
@@ -24,17 +24,14 @@
                     <span>所属单位</span>
                     <el-input class="inputs" style="width: 50%" size=medium   v-model="units" placeholder="关键字搜索"></el-input>
                 </div>
-
                 <div class="boxCommon box_centerColumn">
                     <span>IP地址</span>
                     <el-input class="inputs" style="width: 50%" size=medium   v-model="ipDetail" placeholder="关键字搜索"></el-input>
                 </div>
-
                 <div class="boxCommon special box_bottomColumn">
                     <el-button type="primary" round size="small" @click="handleClick('save')"><i class="iconfont iconbaocun-tianchong"></i>保存</el-button>
                     <el-button round  size="small" @click="handleClick('cancel')"><i class="iconfont iconcancel"></i>取消</el-button>
                 </div>
-                
             </div>
 
             <div class="box_wrap"   v-if='shadeType === 2'>
@@ -44,6 +41,40 @@
                 <div class="boxCommon special box_bottomColumn">
                     <el-button  type="warning" round  size="small" @click="handleClick('delete')"><i class="iconfont iconshanchu"></i>删除</el-button>
                     <el-button round  size="small" @click="handleClick('cancel')"><i class="iconfont iconcancel"></i>取消</el-button>
+                </div>
+            </div>
+
+            <div class="box_wrap"   v-if='shadeType === 3'>
+                <div class='box_userPic'>
+                    <i class="iconfont btnClose iconguanbi"  @click="handleClick"></i>
+
+                </div>
+
+                <div class='boxCommonOne box_units'>
+                    <span>所属单位</span>
+                    <el-input
+                        style="width: 50%"
+                        placeholder="所属单位"
+                        v-model="units"
+                        :disabled="true">
+                    </el-input>
+
+                </div>
+
+                <div class='boxCommonOne box_signature'>
+                    <span>数字签名</span>
+                    <el-input
+                        style="width: 50%"
+                        placeholder="数字签名"
+                        v-model="signature"
+                        :disabled="true">
+                    </el-input>
+
+                </div>
+
+                <div class='box_amend'>
+                    <span> <i class="iconfont  iconmimaxiugai1"></i>密码修改</span>
+
                 </div>
                 
             </div>
@@ -101,7 +132,9 @@
                     case 'add' :  this.shade = true; this.shadeType = 1;   break;
 
                     case 'edit' :  this.shade = true; this.shadeType = 1;   break;
-                    case 'delete' :this.shade = true; this.shadeType = 2;  break
+                    case 'delete' :this.shade = true; this.shadeType = 2;  break;
+                    case 'personalCenter' :this.shade = true; this.shadeType = 3;  break;
+
                 }
 
                 // this.shade = true;
@@ -115,6 +148,8 @@
                 ipDetail : '',
                 shade : false,   //   编辑操作 遮罩
                 shadeType : 1 ,   //     遮罩类型 
+                units : '',   // 所属单位
+                signature : '',   //数字签名
             }
         }
     }
@@ -173,12 +208,9 @@
                         font-size: 16px;
                         font-weight: 550;
                     }
-
                 }
                 .special{
                     padding-top: 1%;
-                  
-
                 }
                 .box_topColumn{
                
@@ -199,9 +231,58 @@
                     height: 29%;
                     justify-content: space-around;
 
+                } 
+                .boxCommonOne{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-around;
+
+                }
+                .box_userPic{
+                    width : 100%;
+                    height : 33%;
+                    position: relative;
+                    .btnClose{
+                        position: absolute;
+                        width: 10px;
+                        height: 10px;
+                        right: 1%;
+                        top: 15%;
+                        cursor: pointer;
+                        
+                    }
+                }
+                .box_units{
+                    width : 100%;
+                    height : 25%;
+                    border-top: 1px solid #dddddd;
+                    border-bottom : 1px solid #dddddd; 
+                }
+                .box_signature{
+                    width : 100%;
+                    height : 25%;
+                }
+                .box_amend{
+                    width : 100%;
+                    height : 10%;
+                    display : flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                    color: #999999;
+                  
+                    cursor: pointer;
+                    span{
+                        i{
+                            color: #ffdb8e;
+                            margin-right:2px; 
+                            font-size: 20px;
+                        }
+                        border-bottom: 1px solid #999;
+                    }
                 }
 
-                
+
+
             }
 
            
