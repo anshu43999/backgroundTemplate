@@ -69,6 +69,7 @@
   	z-index: 2;
   }
   .el-menu-item, .el-submenu__title{
+	  border-left: 4px solid #405B88;
   	height:0.58rem !important;
   	line-height:0.58rem !important;
 	  /* color:#333333 !important; */
@@ -136,7 +137,7 @@
   /*鼠标悬停*/
   .el-submenu__title:hover,.el-menu-item:hover{
   	/*background:rgb(216, 229, 225)!important;*/
-  	background:#e44e2a !important;
+  	background:rgb(241,241,241,.15) !important;
   }
   /*展开菜单字体颜色*/
   li.is-opened >div.el-submenu__title >i.iconfont+span{
@@ -171,12 +172,11 @@
   	/*color:#378ef8;*/
   }
   .el-menu-item.is-active{
-  	/*background:rgba(2, 148, 65, 0.6)!important;*/
-	  /* background:#ffd273!important; */
-
-	  background:#ffd087!important;
+ 
+	  background:#33486c!important;
+	  /*左侧添加border */
+	  border-left: 4px solid #e4f2ff;     
 	  /* background: linear-gradient(to right, rgba(255,210,115,1),rgba(254,173,83,0.85)); 标准的语法 */
-
 
 
   	color:#f6f9fa!important;;

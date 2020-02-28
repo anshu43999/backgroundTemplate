@@ -3,7 +3,7 @@
         <!--		logo-->
         <div class="logo">
             <img class="logoImg" src="static/images/header/logo.png" alt=""/>
-            <span class="systemName">太原市政法干部信息管理系统</span>
+            <span class="systemName">12110 短信报警平台数据接口系统</span>
         </div>
         <!--		用户信息-->
         <div class="headerR">
@@ -65,6 +65,11 @@
 <style lang="scss">
     .exit {
         cursor: pointer;
+    }
+    .header{
+        // background: red !important;
+        background: url("../../../../public/static/images/common/top.png") no-repeat center top  !important;
+
     }
 
 </style>

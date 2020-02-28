@@ -1,11 +1,15 @@
 @charset "UTF-8";
 .el-header {
-    height: 0.6rem!important;
-    line-height: 0.6rem;
+    height: 0.65rem!important;
+    line-height: 0.65rem;
     padding: 0 !important;
     position: relative;
     z-index: 6;
 }
+.el-menu{
+    margin-top:25% ;
+}
+
 
 div.header {
     width: 100%;
@@ -26,10 +30,10 @@ div.header .logoImg {
 }
 
 .systemName{
-	line-height: 0.6rem;
+	line-height: 0.65rem;
 	letter-spacing: 2px;
 	color: #202020;
-	font-size: 0.24rem;
+	font-size: 0.22rem;
 	margin-left: 0.24rem;
 }
 

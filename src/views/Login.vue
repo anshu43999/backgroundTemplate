@@ -1,218 +1,284 @@
 <template>
-    <div id="login">
-<!--        banner-->
-        <div class="banner" style="background-image: url(static/images/login/banner.png)"></div>
-<!--        form-->
-        <form action="">
-            <div class="user">
-                <input type="text" placeholder="用户名" v-model="username">
-                <div class="userPic">
-                    <i class="iconfont iconzhanghu"></i>
+	<div id="login">
+
+
+         <div class="homepage-hero-module">
+            <div class="video-container">
+                <div class='login_title'>
+                    <b class="guohui" src="../assets/images/guohui.png"></b>
+                    <!-- <image src="../assets/images/index/guohui.png" alt=""></image> -->
+                    <!-- <b class="guohui"></b> -->
+                    <span>12110 短信报警平台数据接口系统</span>
                 </div>
-            </div>
-            <div class="pass">
-                <input type="password" placeholder="密码" v-model="password">
-                <div class="passPic">
-                    <i class="iconfont iconmima"></i>
+
+                <div class='loginBodyWrap'>
+                    <div class='loginBodybox'>
+                        <div class="loginBodybox_main">
+                            <div class="username_wrap">
+                                <div class="info_wrap">
+                                    <i class="iconfont iconwulumuqishigongandashujuguanlipingtai-ico-"></i>
+                                    <input type="text" placeholder="请输入用户名">
+                                </div>
+                            </div>
+                            <div class="password_wrap">
+                                <div class="info_wrap">
+                                    <i class="iconfont iconmima"></i>
+                                    <input type="password" placeholder="请输入密码">
+
+                                </div>
+                            </div>
+                            <div class="login_wrap" @click="login">
+                                <span>登录</span>    
+                            </div>
+                            <div class="register_wrap">
+                                <span><i class="iconfont iconfeiji"></i>去注册</span>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
+              
+                       
+
+               
+                <video autoplay loop muted playsinline src="../assets/video/dongtu1.mp4" class="fillWidth" style="width= 100%; height=100%; object-fit: fill"></video>
             </div>
-            <div class="message_warp">
-                <p v-if="show" class="message">{{errorMessage}} </p>
-            </div>
-            <input  type="button" value="登录" :class="[active? 'btnActive':'btnFocurs']" @click="submit">
-        </form>
-<!--        copyright-->
-        <div class="copyright">山西硬汉网络科技有限公司 版权所有:Copyright©2018—2019</div>
-    </div>
+        </div>
+
+
+
+		<div class="copyright">山西硬汉网络科技有限公司提供技术支持</div>
+
+
+
+
+
+	</div>
 </template>
 
 <script>
-    export default {
-        name: "Login",
-        data(){
-            return {
-                username:'',
-                password:'',
-                active : false,
-                errorMessage: '',
-                show : false,
+	export default {
+		name: "Login",
+		data () {
+			return {
+				active : false,
+				name : '',
+				password : '',
+			}
+		},
+		methods : {
+            login(){
+                console.log('登录')
+                this.$router.push({ path : '/index/logManagement' , query : { }  })
             }
-        },
-        methods:{
-            submit(){
-                this.active = true;
-                this.$router.push({ path: '/index/home'});
-                this.active = false;
+			
+			
+		},
+		mounted(){
 
-                // if(this.username && this.password){
-                //     this.$http({
-                //         method: 'post',
-                //         url: this.apiRoot +  'login',
-                //         transformRequest: [function (data) {
-                //             // Do whatever you want to transform the data
-                //             let ret = '';
-                //             for (let it in data) {
-                //                 ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-                //             }
-                //             return ret
-                //         }],
-                //         headers: {'Content-Type': 'application/x-www-form-urlencoded','crossDomain': true},
-                //         withCredentials: true,// 允许携带token ,这个是解决跨域产生的相关问题
-                //         crossDomain: true,
-                //         data: {
-                //             userName:this.username,
-                //             userPass:this.password,
-                //         }
-                //     }).then(function (response) {
-                //         console.log(response)
-                //         if(response.data.success == true) {
-                //             var payload={};
-                //             payload.libraryId=response.data.user.libraryId;
-                //             payload.libraryName=response.data.user.libraryName;
-                //             payload.userName=response.data.user.userName;
-                //             payload.userId=response.data.user.id;
-                //             payload.userAuth=response.data.user.resourceName;
-                //             payload.Token=response.data.user.token;
-                //             payload.permissions=response.data.user.permissions;
-                //             payload.roleName=response.data.user.roleName;
-                //             this.setUserInfo(payload);
-                //             this.active = false;
-                //             // console.log('开始登陆')
-                //             this.$router.push({ path: '/index/home'});
-                //         }else if(response.data.success == false){
-                //             // console.log('登录失败');
-                //             this.errorMessage=response.data.code+'!';
-                //             this.active = false;
+		
 
+			
+		
+		},
+		directives:{
+			focus:{
+				inserted : function (el,{value}) {
+					// console.log(el,{value})
+					if(value){
+						el.focus();
+					}
+				}
+			}
+		},
 
-                //             this.show = true;
-                //             this.errorMessage =response.data.code+'!';
-                //         }
-                //     }.bind(this)).catch(function (error) {
-                //         console.log(error);
-                //     });
-                //     this.show = false;
-                //     this.$router.push({ path: '/index/home'});
-                // }else{
-                //     this.show = true;
-                //     this.active = false;
-                //     this.errorMessage = '请输入用户名或密码'
-                // }
-            }
-        }
-    }
+	}
 </script>
 
 <style scoped lang="scss">
+input{
+    background: transparent;
+    border: none;
+    color: white;
+    
+}
+input:focus{outline:none;}
+.copyright{
+     width: 100%;
+    color: #f8fbff;
+    position: absolute;
+    left: 0;
+    bottom: 5px;
+    text-align: center;
+}
+
 #login{
+    position: relative;
+    // background : url('../assets/images/index/login_bg.png');
+    background-size: 100% 100%;
     width: 100%;
     height: 100%;
-    /*banner*/
-    .banner{
+    .homepage-hero-module{
         width: 100%;
-        height: 4rem;
-        // background-image: url("../../public/static/images/login/banner.png");
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
+        height : 100%;
     }
-/*    form*/
-    form{
-        width: 4.6rem;
-        margin: 0.47rem auto;
-        .user,.pass{
-            height: 0.5rem;
-            width: 100%;
-            position: relative;
-            margin-bottom: 0.21rem;
-            .userPic,.passPic{
-                width: 0.5rem;
-                height: 0.5rem;
-                background-image: linear-gradient(90deg,
-                        #ef3510 0%,
-                        #d20002 100%);
-                background-blend-mode: normal,
-                normal;
-                box-shadow: 1px 2px 5px 0px
-                rgba(255, 68, 32, 0.33);
-                position: absolute;
-                top: 0;
-                left: 0;
-                text-align: center;
-                .iconfont{
-                    font-size: 0.28rem;
-                    line-height: 0.5rem;
-                    color: #fff;
-                }
-            }
-            input[type='text'],input[type='password']{
-                display: block;
-                width: 100%;
-                height: 100%;
-                background-color: #fff4f7;
-                /*box-shadow: 0;*/
-                border: 0;
-                padding-left: 0.79rem;
-                letter-spacing: 2px;
-                &::placeholder{
-                    color: #b5b6b8;
-                }
-                &:-webkit-autofill {
-                    -webkit-box-shadow: 0 0 0px 1000px rgba(255, 244, 247, 0.97) inset
-                }
-                font-size: 0.16rem;
-                outline:#d40403 solid 1px;
-            }
-        }
-        input[type='button']{
-            width: 100%;
-            height: 0.5rem;
-            background-image: linear-gradient(90deg,
-                    #ef3510 0%,
-                    #d20002 100%);
-            background-blend-mode: normal,
-            normal;
-            box-shadow: 1px 2px 5px 0px
-            rgba(255, 68, 32, 0.33);
-            border: none;
-            display: block;
-            color: #fff;
-            letter-spacing: 12px;
-            font-size: 0.24rem;
-            &.btnActive{
-                cursor: pointer;
-                transform: scale(0.9);
-            }
-            &.btnFocurs{
-                cursor: pointer;
-                transform: scale(1);
-            }
-        }
-        .message{
-            background-color: #f8ffa9;
-            width: 3.5rem;
-            text-align: center;
-            border-radius: 4px;
-            color: #999999;
-            height: .3rem;
-            line-height: .3rem;
-        }
-        .message_warp{
-            width: 3.5rem;
-            margin: .15rem auto .1rem;
-            height: .3rem;
-        }
-    }
-/*    copyright*/
-    .copyright{
+
+
+    .video-container {
+        position: relative;
+        bottom: 0%;
+        left: 0%;
+        height: 100%;
         width: 100%;
+        overflow: hidden;
+    }
+
+    .video-container .login_title{
         position: absolute;
-        left: 0;
-        bottom: 0.1rem;
-        text-align: center;
-        font-size: 0.14rem;
-        color: #777777;
-        letter-spacing: 1px;
+        top: 10%;
+        width: 100%;
+        height: 10%;
+        z-index : 999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size : .45rem;
+        .guohui{
+            display: inline-block;
+            width: .7rem;
+            height:.7rem;
+            background: url('../assets/images/guohui.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size:100% 100%; 
+            z-index: 1000;
+            margin-right:1rem; 
+        }
     }
+    .video-container .loginBodyWrap{
+        position: absolute;
+        top: 25%;
+        width: 100%;
+        height: 60%;
+        z-index : 999;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        .loginBodybox{
+            width :32%;
+            height:100%;
+            margin-right: 5%;
+            border-radius: 5px;
+            box-shadow: 0px 3px 32px 0px 
+		    rgba(49, 114, 188, 0.64);
+            .loginBodybox_main{
+                width: 77%;
+                height: 72%;
+                margin: 20% 11% 8% 12%;
+                .username_wrap{
+                    height: 27%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    .info_wrap{
+                        width: 100%;
+                        height: 70%;
+                        border-radius: 4px;
+                        border : 2px solid #04113f;
+                        display: flex;
+                        justify-content: start;
+                        align-items: center;
+
+                        i{
+                            font-size: .3rem;
+                            margin-left:.3rem; 
+                            margin-right:.3rem; 
+                        }
+                        input{
+                            width: 70%;
+                            height: 50%;
+                        }
+                    }
+                }
+                .password_wrap{
+                    height: 27%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    .info_wrap{
+                        width: 100%;
+                        height: 70%;
+                        border-radius: 4px;
+                        border : 2px solid #04113f;
+                        display: flex;
+                        justify-content: start;
+                        align-items: center;
+                        i{
+                            font-size: .3rem;
+                            margin-left:.3rem; 
+                            margin-right:.3rem; 
+
+                        }
+
+                    }
+                }
+                .login_wrap{
+                    cursor: pointer;
+                    height: 26%;
+                    display: flex;
+                    align-items: center;
+                    span{
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        height: 43%;
+                        color: #ffffff;
+                        background-image: linear-gradient(90deg, 
+                            #05217b 0%, 
+                            #030d2f 100%);
+                        box-shadow: 0px 7px 13px 0px 
+                            rgba(8, 34, 120, 0.35);
+                        border-radius: 4px;
+                        border: solid 2px #04113f;
+                    }
+                }
+                .register_wrap{
+                    height: 19%;
+                    color: #030d30;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+
+
+            }
+        }
+    }
+
+    
+    .video-container video {
+        width:100%;
+        height: 100%;
+        position: absolute;
+        z-index: 0;
+        bottom: 0;
+    }
+
+    // .video-container video.fillWidth {
+    //     width: 100%;
+    // }
+
+    .btnActive{
+            transform: scale(0.9);
+    }
+    .btnFocurs{
+        transform: scale(1);
+    }
+
+
+
 }
 </style>

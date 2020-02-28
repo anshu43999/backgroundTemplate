@@ -20,6 +20,7 @@
 				</div>
 			</template> -->
 		</el-breadcrumb>
+		<!-- <h1></h1> -->
 	</div>
 </template>
 
@@ -85,11 +86,17 @@
 			},
 			getBreadcrumbHistory(){
 				var name=this.$route.name;
+
 				// console.log(name);
 				var fullPath=this.$route.fullPath;
 				// console.log(fullPath);
 				// var res=name.match(/\//g).length;
 				var res = '';
+
+
+				//  增加一层判断     待调试确认    2020 - 02 - 26
+				if(! name.match(/\//g)) return;
+
 				if(name.match(/\//g).length){
 					res=name.match(/\//g).length;
 				}else{
@@ -206,7 +213,17 @@
 	}
 </script>
 
-<style>
+<style lang='scss' scoped>
+	.breadcrumbwrap{
+		.el-breadcrumb{
+			font-size: 16px;
+			span{
+				line-height: .26rem;
+			}
+		}
+
+	}
+
 	/*面包屑导航*/
 	.el-breadcrumb__item{
 		line-height: 0.34rem;
@@ -215,7 +232,7 @@
 		color: #666666!important;
 	}
 	.el-breadcrumb>span:last-child>.el-breadcrumb__inner.is-link{
-		color: #d20002!important;
+		color: #333333!important;
 		/* font-weight: bold!important; */
 	}
 	.el-breadcrumb__inner.is-link{
@@ -234,4 +251,8 @@
 		font-size: .15rem;
 		line-height: .2rem;
 	}
+	.breadcrumbwrap h1{
+		border-bottom: 1px solid  #dddddd ; 
+	}
+	
 </style>
