@@ -10,16 +10,16 @@
     <div class="mainBody">
         <div class="mainBodyHeader">
             
-            <span class="textTime">关键字搜索</span>
+            <span class="textTime">IP搜索</span>
             <el-input class="inputs" style="width: 2rem" size=small  v-model="crux" placeholder="关键字搜索"></el-input>
 
-            <div class="optionsBtn">
+            <div class="optionsBtn" @click="topOptions('submit')">
                 <i class="iconfont iconseach"></i>
                 <span>筛选</span>
                 
             </div>
 
-            <div class="optionsBtn">
+            <div class="optionsBtn" @click="topOptions('cancel')">
                 <i class="iconfont iconcancel"></i>
                 <span>取消</span>
             </div>
@@ -36,24 +36,22 @@
         </div>
         <div class="mainBodyContext">
             <div   class="mainBodyContext_tableWrap" >
-                <tableList @operate='operate' ref='tables' :tbTaskH=tbTaskH  class="tablesList" :tableData = tableData :type=listType></tableList>
+                <tableList @operate='operate' ref='tables' :tbTaskH=tbTaskH  class="tablesList" :tableData = tablePaging :type=listType></tableList>
             </div>
             <div class="mainBodyContext_pagination">
                 <div>
-                    <span>共20项</span> 3页
+                    <span>共{{listSum}}项</span> {{totalPage}}页
                 </div>
                 <div class='pagination_center'>
-                    <span class="spanCommon previous"> &lt </span>
-                    <span class="spanCommon nowPage">1</span>
-                    <span class="spanCommon next">&gt</span>
-                    <span class="spanCommon goPage">到第 <input type="number">页   </span>
-                    <span class="spanCommon pageNext">确定</span>
+                    <span class="spanCommon previous" @click="goPage( currentPage-1,8)"> &lt </span>
+                    <span class="spanCommon nowPage">{{currentPage}}</span>
+                    <span class="spanCommon next" @click="goPage( currentPage+1,8)">&gt</span>
+                    <span class="spanCommon goPage">到第 <input min="1" :max="totalPage" type="number" style="text-align:center "   v-model.number="currentPage">页   </span>
+                    <span class="spanCommon pageNext" @click="goSpecific">确定</span>
                 </div>
-                
-                
-
             </div>
 
+            <!-- <Paging    v-if="pagingShow" :tableData='tableData'      ref="paging"></Paging> -->
 
 
             
@@ -67,42 +65,48 @@
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
 import Breadcrumb from '../../components/common/action/Breadcrumb';
-import tableList from '../../components/tableList'
-
+import tableList from '../../components/tableList';
+import Paging from '../../components/paging';
+import {mapGetters,mapMutations} from 'vuex'
+import Qs from 'qs'
 export default {
 //import引入的组件需要注入到对象中才能使用
 components: {
     Breadcrumb,
     tableList,
+    Paging,
 },
 data() {
 //这里存放数据
 return {
+    urlPort : [this.apiRoot + 'IPManage/fingIPList',this.apiRoot + 'IPManage/deleteIP', this.apiRoot + 'IPManage/findKeyword'],
     route:'',
     breadcrumb: {
         search: false,
         searching: '',
     },
     filtrate : '',
+    // ----------------------------------------分页数据
+    tableData : [],   // 总数
+    tablePaging : [],  // 分页数据
+    listSum : 0, //总数
+    totalPage : 1 ,  //总页数
+    currentPage : 1  , //当前页数
     tableData : [
-        {id : 1, deployTime: '2016-05-02', address: '王小虎', ipDetail: '192.168.1.253' }, 
-        {id : 2, deployTime: '2016-05-02', address: '王小虎', ipDetail: '192.168.1.253' }, 
-        {id : 3, deployTime: '2016-05-02', address: '王小虎', ipDetail: '192.168.1.253' }, 
-        {id : 4, deployTime: '2016-05-02', address: '王小虎', ipDetail: '192.168.1.253' }, 
-        {id : 5, deployTime: '2016-05-02', address: '王小虎', ipDetail: '192.168.1.253'  }, 
-        {id : 6, deployTime: '2016-05-02', address: '王小虎', ipDetail: '192.168.1.253' }, 
-        {id : 7, deployTime: '2016-05-02', address: '王小虎', ipDetail: '192.168.1.253' }, 
-        {id : 8, deployTime: '2016-05-02', address: '王小虎', ipDetail: '192.168.1.253'  }, 
+       
     ],
     tbTaskH : '' ,   // table 的高度
     crux: '', // 关键词
     listType : 2,  //  table 类型
+    pagingShow : false, // 分页是否显示     2020 03 04  弃用
 
 
 };
 },
 //监听属性 类似于data概念
-computed: {},
+computed: {
+    ...mapGetters(['userName','userId'])
+},
 //监控data中的数据变化
 watch: {},
 //方法集合
@@ -110,12 +114,94 @@ methods: {
     // 新增配置  
     handleClick(value){
         console.log(value);
-        this.$emit('operate',value)
+        this.$emit('operate',{code : value})
     },
     // 双层操作方法
     operate(value){
         this.$emit('operate',value)
+    },
+    // 获取数据
+    getList(){
+        let data = {
+            unitName: this.userName,
+            xzqh : this.userId
+        }  
+        this.$http({
+            method: 'post',
+            url: this.urlPort[0],
+            data: Qs.stringify(data)
+        })
+        .then(function (res) {
+            console.log(res)
+            this.tableData  = res.data;
+            // number   传输总量 // ipNumber     设备数// transmissionCapacity  传输总量  // time    日期
+            
+            this.goPage(1,8)     // 开始替换
+        }.bind(this))
+    },
+    // 分页
+    goPage(nowPage,pageSize,value){
+        if(this.tableData.length === 1 ){
+            this.listSum = 1; 
+            this.totalPage = 1;
+            this.currentPage = 1;
+            this.tablePaging = this.tableData ;
+            return;
+        }
+        let  num  = this.tableData.length ;     //  总数length 值
+        this.listSum = num; 
+        if( num/pageSize > parseInt(num/pageSize) ){
+            this.totalPage=parseInt(num/pageSize)+1;   
+        }else{
+            this.totalPage=parseInt(num/pageSize);   
+        }
+        if(nowPage<=0 || nowPage> this.totalPage){ return};
+        this.currentPage = nowPage; //当前页数
+        let startRow = (this.currentPage - 1) * pageSize;   // 开始   index 值
+        let endRow = this.currentPage * pageSize;      // 结束  index  值
+        endRow = (endRow > num)? num+1 : endRow;        // 判断  当结束length值 大于 总数length值时  取   总数length值    最后一页不是页数最大量
+        this.tablePaging = this.tableData.slice(startRow,endRow)
+    },
+    // 特殊页跳转
+    goSpecific(){
+        this.goPage(this.currentPage,8);
+
+    },
+    // top  options
+    topOptions(value){
+        switch(value){
+            case  'submit' :this.optionsFiltrate(); break; 
+            case 'cancel' : this.optionsCancel(); break;
+        }
+    },
+    //  筛选方法
+    optionsFiltrate(){
+        let data = {
+            keyword : this.crux
+        }
+        
+        this.$http({
+            method: 'post',
+            url: this.urlPort[2],
+            data: Qs.stringify(data)
+        })
+        .then(function (res) {
+            // 这里返回 一条 {}
+            this.tableData = [];    // 清除 tableData
+            console.log(res.data);
+            this.tableData = res.data;
+            this.goPage(1,8)
+        }.bind(this))
+    },
+    // 取消方法
+    optionsCancel(){
+        this.crux = '';
+        this.getList();
+
+        
     }
+
+
 
 },
 //生命周期 - 创建完成（可以访问当前this实例）
@@ -126,6 +212,8 @@ mounted() {
 
     console.log(this.$refs.tables.$el.clientHeight)
     this.tbTaskH = this.$refs.tables.$el.clientHeight;
+
+    this.getList();
 
 
     
@@ -183,6 +271,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
                 font-weight: 550;
             }
             .optionsBtn{
+                cursor: pointer;
                 width: 6%;
                 height: 70%;
                 display: flex;
@@ -252,6 +341,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
                     height: 35%;
                     display: flex;
                     .previous{
+                        cursor: pointer;
                         width: 10%;
                         background: #ffffff;
                         border: 1px solid #cccccc;
@@ -271,6 +361,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
                         text-align: center;
                     }
                     .next{
+                        cursor: pointer;
                         width: 10%;
                         background: #ffffff;
                         border: 1px solid #cccccc;

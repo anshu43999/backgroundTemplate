@@ -58,6 +58,7 @@
 </template>
 
 <script>
+    import {mapGetters,mapMutations} from 'vuex'
 	export default {
 		name: "Login",
 		data () {
@@ -68,9 +69,16 @@
 			}
 		},
 		methods : {
+            ...mapMutations(['setUserInfo']),
             login(){
                 console.log('登录')
                 this.$router.push({ path : '/index/logManagement' , query : { }  })
+                let payload = {
+                    userName :  '山西省太原市指挥中心',
+                    userId : '0301'
+                }
+                this.setUserInfo(payload)
+
             }
 			
 			

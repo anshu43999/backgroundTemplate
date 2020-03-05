@@ -36,13 +36,13 @@ import axios from 'axios'
 // Vue.prototype.apiRoot ='http://192.168.1.248:8085/committeeSystem/';  //kun
 
 
-Vue.prototype.apiRoot ='http://127.0.0.1:8086/committeeSystem/';//su
+Vue.prototype.apiRoot ='http://192.168.1.252:8084/unitportSystem/';//su
 
 
 // Vue.prototype.apiRoot ='http://my.ityyedu.com/committeeSystem/';
 
 
-
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'; 
 
 Vue.use(ElementUI);
 Vue.prototype.$http=axios;

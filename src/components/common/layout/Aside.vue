@@ -1,7 +1,15 @@
 <template>
 
 
-	<el-menu background-color="transparent" unique-opened :default-active="activePath" class="el-menu-vertical-demo" :router=true @open="handleOpen" @select="handleSelect" @close="handleClose" :collapse="this.isCollapse" >
+	<el-menu 
+    background-color="transparent" 
+    unique-opened :default-active="activePath" 
+    class="el-menu-vertical-demo" 
+    :router='true' 
+    @open="handleOpen" 
+    @select="handleSelect" 
+    @close="handleClose" 
+    :collapse="this.isCollapse" >
 		
 
 		<el-menu-item index="/index/logManagement">
@@ -44,12 +52,14 @@ export default {
     // ]),
     activePath() {
       var path = this.$route.path.split("/");
+      console.log(path);
       var zpath = path[0];
-      for (var i = 1; i <= 3; i++) {
+      for (var i = 1; i <= 2; i++) {
         if (path[i]) {
           zpath += "/" + path[i];
         }
       }
+      console.log(zpath)
       return zpath;
     }
   },

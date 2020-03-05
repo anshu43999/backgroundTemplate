@@ -50,7 +50,11 @@
             handleCommand(command) {
                 switch(command){
                     case 'personalCenter' :          
-                            this.$emit('operate','personalCenter')
+                            // this.$emit('operate','personalCenter')
+
+                            this.$emit('operate',{code:'personalCenter'})
+
+                            // {code:code,id:row.id}
                     break;
                     case 'exit' : this.$confirm('您要退出登录, 是否继续?', '提示', {
                                         confirmButtonText: '确定',

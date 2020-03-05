@@ -15,17 +15,18 @@
                 size=small
                 v-model="filtrate"
                 type="date"
+                value-format="yyyy-MM-dd"
                 placeholder="选择日期">
             </el-date-picker>
 
 
-            <div class="optionsBtn">
+            <div class="optionsBtn"  @click="topOptions('submit')">
                 <i class="iconfont iconseach"></i>
                 <span>筛选</span>
                 
             </div>
 
-            <div class="optionsBtn">
+            <div class="optionsBtn" @click="topOptions('cancel')">
                 <i class="iconfont iconcancel"></i>
                 <span>取消</span>
             </div>
@@ -34,20 +35,21 @@
         </div>
         <div class="mainBodyContext">
             <div   class="mainBodyContext_tableWrap" >
-                <tableList ref='tables' :tbTaskH=tbTaskH  class="tablesList" :tableData = tableData :type=listType></tableList>
+                <tableList ref='tables' :tbTaskH=tbTaskH  class="tablesList" :tableData = tablePaging :type=listType></tableList>
             </div>
             <div class="mainBodyContext_pagination">
 
                 <div>
-                    <span>共20项</span> 3页
+                    <span>共{{listSum}}项</span> {{totalPage}}页
                 </div>
                 <div class='pagination_center'>
-                    <span class="spanCommon previous"> &lt </span>
-                    <span class="spanCommon nowPage">1</span>
-                    <span class="spanCommon next">&gt</span>
-                    <span class="spanCommon goPage">到第 <input type="number">页   </span>
-                    <span class="spanCommon pageNext">确定</span>
-
+                    <span class="spanCommon previous" @click="goPage( currentPage-1,8)"> &lt </span>
+                    <span class="spanCommon nowPage">{{currentPage}}</span>
+                    <span class="spanCommon next" @click="goPage( currentPage+1,8)">&gt</span>
+                    <span class="spanCommon goPage">到第 <input min="1" :max="totalPage" type="number" style="text-align:center "   v-model.number="currentPage">页   </span>
+                    <span class="spanCommon pageNext" @click="goSpecific">确定</span>
+                    
+                    
                 </div>
             </div>
             
@@ -62,7 +64,8 @@
 //例如：import 《组件名称》 from '《组件路径》';
 import Breadcrumb from '../../components/common/action/Breadcrumb';
 import tableList from '../../components/tableList'
-
+import Qs from 'qs'
+import {mapGetters,mapMutations} from 'vuex'
 export default {
 //import引入的组件需要注入到对象中才能使用
 components: {
@@ -72,34 +75,122 @@ components: {
 data() {
 //这里存放数据
 return {
+    urlPort : [ this.apiRoot+'log/findLogList',this.apiRoot+'log/findLogTime'],
     route:'',
     breadcrumb: {
         search: false,
         searching: '',
     },
     filtrate : '',
-    tableData : [
-        {id : 1, date: '2016-05-02', gross: '王小虎', transmitNumber: '上海市普陀区金沙江路 1518 弄',deviceNumber : '2/2'  }, 
-        {id : 2, date: '2016-05-02', gross: '王小虎', transmitNumber: '上海市普陀区金沙江路 1518 弄',deviceNumber : '2/2'  }, 
-        {id : 3, date: '2016-05-02', gross: '王小虎', transmitNumber: '上海市普陀区金沙江路 1518 弄',deviceNumber : '2/2'  }, 
-        {id : 4, date: '2016-05-02', gross: '王小虎', transmitNumber: '上海市普陀区金沙江路 1518 弄',deviceNumber : '2/2'  }, 
-        {id : 5, date: '2016-05-02', gross: '王小虎', transmitNumber: '上海市普陀区金沙江路 1518 弄',deviceNumber : '2/2'  }, 
-        {id : 6, date: '2016-05-02', gross: '王小虎', transmitNumber: '上海市普陀区金沙江路 1518 弄',deviceNumber : '2/2'  }, 
-        {id : 7, date: '2016-05-02', gross: '王小虎', transmitNumber: '上海市普陀区金沙江路 1518 弄',deviceNumber : '2/2'  }, 
-        {id : 8, date: '2016-05-02', gross: '王小虎', transmitNumber: '上海市普陀区金沙江路 1518 弄',deviceNumber : '2/2'  }, 
-    ],
+    // ----------------------------------------分页数据
+    tableData : [],   // 总数
+    tablePaging : [],  // 分页数据
+    listSum : 0, //总数
+    totalPage : 1 ,  //总页数
+    currentPage : 1  , //当前页数
+
+    // ----------------------------------------table 
     tbTaskH : '' ,   // table 的高度
     listType : 1, //  table 类型
+
 
 
 };
 },
 //监听属性 类似于data概念
-computed: {},
+computed: {
+    ...mapGetters(['userId'])
+},
 //监控data中的数据变化
 watch: {},
 //方法集合
 methods: {
+    // 获取 全部 列表数据
+    getList(){
+        let data = {
+        xzqh: this.userId
+            }
+        
+        this.$http({
+            method: 'post',
+            url: this.urlPort[0],
+            data: Qs.stringify(data)
+        })
+        .then(function(res){
+            this.tableData  = res.data;
+            // number   传输总量 // ipNumber     设备数// transmissionCapacity  传输总量  // time    日期
+            
+            this.goPage(1,8)
+        }.bind(this))
+    },
+    // 分页
+    goPage(nowPage,pageSize,value){
+        if(this.tableData.length === 1 ){
+            this.listSum = 1; 
+            this.totalPage = 1;
+            this.currentPage = 1;
+            this.tablePaging = this.tableData ;
+            return;
+        }
+
+        
+
+        
+        let  num  = this.tableData.length ;     //  总数length 值
+        this.listSum = num; 
+        if( num/pageSize > parseInt(num/pageSize) ){
+            this.totalPage=parseInt(num/pageSize)+1;   
+        }else{
+            this.totalPage=parseInt(num/pageSize);   
+        }
+        if(nowPage<=0 || nowPage> this.totalPage){ return};
+        this.currentPage = nowPage; //当前页数
+        let startRow = (this.currentPage - 1) * pageSize;   // 开始   index 值
+        let endRow = this.currentPage * pageSize;      // 结束  index  值
+        endRow = (endRow > num)? num+1 : endRow;        // 判断  当结束length值 大于 总数length值时  取   总数length值    最后一页不是页数最大量
+        this.tablePaging = this.tableData.slice(startRow,endRow)
+        
+        
+
+    },
+    // 特殊页跳转
+    goSpecific(){
+        this.goPage(this.currentPage,8);
+
+    },
+    // top  options
+    topOptions(value){
+        switch(value){
+            case  'submit' :this.optionsFiltrate(); break; 
+            case 'cancel' : this.optionsCancel(); break;
+        }
+    },
+    //  筛选方法
+    optionsFiltrate(){
+        let data = {
+            xzqh: this.userId,
+            time : this.filtrate
+        }
+        
+        this.$http({
+            method: 'post',
+            url: this.urlPort[1],
+            data: Qs.stringify(data)
+        })
+        .then(function (res) {
+            // 这里返回 一条 {}
+            this.tableData = [];    // 清除 tableData
+            this.tableData.push(res.data);
+            this.goPage(1,8)
+        }.bind(this))
+    },
+    // 取消方法
+    optionsCancel(){
+        this.filtrate = '';
+        this.getList();
+
+        
+    }
 
 },
 //生命周期 - 创建完成（可以访问当前this实例）
@@ -107,13 +198,8 @@ created() {
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
 mounted() {
-
-    console.log(this.$refs.tables.$el.clientHeight)
     this.tbTaskH = this.$refs.tables.$el.clientHeight;
-
-
-    
-
+    this.getList();
 },
 beforeCreate() {}, //生命周期 - 创建之前
 beforeMount() {
@@ -167,6 +253,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
                 font-weight: 550;
             }
             .optionsBtn{
+                cursor: pointer;
                 width: 6%;
                 height: 70%;
                 display: flex;
@@ -218,6 +305,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
                         background: #ffffff;
                         border: 1px solid #cccccc;
                         text-align: center;
+                        cursor: pointer;
 
                     }
                     .spanCommon{
@@ -237,6 +325,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
                         background: #ffffff;
                         border: 1px solid #cccccc;
                         text-align: center;
+                        cursor: pointer;
                     }
                     .goPage{
                         width: 40%;
@@ -245,6 +334,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
                         input{
                             width : 35%;
                             border: 0;
+                            
                         }
                     }
                     .pageNext{

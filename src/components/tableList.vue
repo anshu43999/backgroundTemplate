@@ -12,23 +12,23 @@
         <template v-if='type === 1'>
             <el-table-column
                 align='center'
-                prop="date"
+                prop="time"
                 label="日期"
                 width="240">
             </el-table-column>
             <el-table-column
                 align='center'
-                prop="gross"
+                prop="number"
                 label="传输总量"
                 width="240">
             </el-table-column>
             <el-table-column
                 align='center'
-                prop="transmitNumber"
+                prop="transmissionCapacity"
                 label="传输次数">
             </el-table-column>
             <el-table-column
-                prop="deviceNumber"
+                prop="ipNumber"
                 align='center'
                 label="传输设备数"
                 >
@@ -40,19 +40,19 @@
         <template v-if='type === 2'>
             <el-table-column
                 align='center'
-                prop="deployTime"
+                prop="updateTime"
                 label="配置时间"
                 width="240">
             </el-table-column>
             <el-table-column
                 align='center'
-                prop="address"
+                prop="unitName"
                 label="所属单位"
                 width="240">
             </el-table-column>
             <el-table-column
                 align='center'
-                prop="ipDetail"
+                prop="ip"
                 label="IP地址">
             </el-table-column>
             <!-- <el-table-column
@@ -109,12 +109,15 @@ watch: {},
 //方法集合
 methods:{
     handleClick(row,code){
+        console.log(row);
         console.log(row.id);
         console.log(code);
+    
+
         switch(code){
-            case 'detail' : this.$router.push({path : 'logManagement/logDetails',query : { id : row.id }}); break;
-            case 'edit' :   this.$emit('operate',code);  break;
-            case 'delete' : this.$emit('operate',code);  break;
+            case 'detail' : this.$router.push({path : 'logManagement/logDetails',query : { time : row.time ,number:row.number,transmissionCapacity : row.transmissionCapacity ,ipNumber : row.ipNumber  }}); break;
+            case 'edit' :   this.$emit('operate',{ip : row.ip, code:code,id:row.id});  break;
+            case 'delete' : this.$emit('operate',{code:code,id:row.id});  break;
         }
     }
 },
