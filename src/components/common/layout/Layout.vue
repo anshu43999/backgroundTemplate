@@ -57,7 +57,7 @@
                 <div class='boxCommonOne box_units'>
                     <span>所属单位</span>
                     <el-input
-                        style="width: 50%"
+                        style="width: 65%"
                         placeholder="所属单位"
                         v-model="units"
                         :disabled="true">
@@ -68,10 +68,11 @@
                 <div class='boxCommonOne box_signature'>
                     <span>数字签名</span>
                     <el-input
-                        style="width: 50%"
+                        style="width: 65%"
                         placeholder="数字签名"
                         v-model="signature"
-                        :disabled="true">
+                      
+                        >
                     </el-input>
 
                 </div>
@@ -105,7 +106,7 @@
             TpmsSidebar,
         },
         computed: {
-            ...mapGetters(['userName'])
+            ...mapGetters(['userName','permissions'])
         },
         created() {
         },
@@ -254,7 +255,11 @@
                     userName: '太原市公安局110指挥中心'
                 },
             }
-        }
+        },
+        mounted(){
+            this.units = this.userName;
+            this.signature = this.permissions;
+        },
     }
 </script>
 

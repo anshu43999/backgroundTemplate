@@ -11,19 +11,19 @@
                     <span>12110 短信报警平台数据接口系统</span>
                 </div>
 
-                <div class='loginBodyWrap'>
-                    <div class='loginBodybox'>
+                <div class='loginBodyWrap'   >
+                    <div class='loginBodybox' v-if="optionstype === 1">
                         <div class="loginBodybox_main">
                             <div class="username_wrap">
                                 <div class="info_wrap">
                                     <i class="iconfont iconwulumuqishigongandashujuguanlipingtai-ico-"></i>
-                                    <input type="text" placeholder="请输入用户名">
+                                    <input type="text"  v-model="loginFrom.userName" placeholder="请输入用户名">
                                 </div>
                             </div>
                             <div class="password_wrap">
                                 <div class="info_wrap">
                                     <i class="iconfont iconmima"></i>
-                                    <input type="password" placeholder="请输入密码">
+                                    <input type="password" v-model="loginFrom.userPass" placeholder="请输入密码">
 
                                 </div>
                             </div>
@@ -31,10 +31,40 @@
                                 <span>登录</span>    
                             </div>
                             <div class="register_wrap">
-                                <span><i class="iconfont iconfeiji"></i>去注册</span>
+                                <span @click="mouseClick('login')"><i class="iconfont iconfeiji"></i>去注册</span>
                             </div>
                         </div>
+                    </div>
 
+
+                    <div class='loginBodybox'   v-if="optionstype === 2">
+                        <div class="loginBodybox_main" style="margin: 10% 11% 8% 12%;">
+                            <div class="username_wrap">
+                                <div class="info_wrap">
+                                    <i class="iconfont iconwulumuqishigongandashujuguanlipingtai-ico-"></i>
+                                    <input type="text" v-model="registerFrom.userName" placeholder="请输入用户名">
+                                </div>
+                            </div>
+                            <div class="username_wrap">
+                                <div class="info_wrap">
+                                    <i class="iconfont iconwulumuqishigongandashujuguanlipingtai-ico-"></i>
+                                    <input type="text" v-model="registerFrom.registrationCode" placeholder="请输入注册码">
+                                </div>
+                            </div>
+                            <div class="password_wrap">
+                                <div class="info_wrap">
+                                    <i class="iconfont iconmima"></i>
+                                    <input type="password" v-model="registerFrom.userPass" placeholder="请输入密码">
+
+                                </div>
+                            </div>
+                            <div class="login_wrap" @click="register">
+                                <span>注册</span>    
+                            </div>
+                            <div class="register_wrap">
+                                <span @click="mouseClick('register')"><i class="iconfont iconfeiji"></i>去登录</span>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -59,27 +89,131 @@
 
 <script>
     import {mapGetters,mapMutations} from 'vuex'
+    import Qs from 'qs'
 	export default {
 		name: "Login",
 		data () {
 			return {
+                urlPort : [this.apiRoot + 'Account/zhuce',this.apiRoot + 'Account/login'],
 				active : false,
 				name : '',
-				password : '',
+                password : '',
+                optionstype : 1,
+                loginFrom : {
+                    userName    : '',
+                    userPass : '',
+                },
+                registerFrom : {
+                    userName : '',
+                    registrationCode : '',
+                    userPass : '',
+
+                },
+
 			}
 		},
 		methods : {
             ...mapMutations(['setUserInfo']),
+            // 登录
             login(){
                 console.log('登录')
-                this.$router.push({ path : '/index/logManagement' , query : { }  })
-                let payload = {
-                    userName :  '山西省太原市指挥中心',
-                    userId : '0301'
+                let arr = Object.values(this.loginFrom);
+                let that = this;
+                for(let item of arr){
+                    if(!item){
+                        that.$notify.error({
+                            title: '错误',
+                            message:  '请将信息填写正确',
+                            type: 'success'
+                        });
+                        return;
+                    }
                 }
-                this.setUserInfo(payload)
 
-            }
+                this.$http({
+                    method: 'post',
+                    url: this.urlPort[1],
+                    data: Qs.stringify(this.loginFrom)
+                })
+                .then(function (res) {
+                    console.log(res.data.success);
+                    if(res.data.success){
+                         this.$router.push({ path : '/index/logManagement' , query : { }  })
+                        let payload = {
+                            userName :  res.data.username,
+                            userId : res.data.userid,
+                            permissions : res.data.urerCode,
+                        }
+                        this.setUserInfo(payload)
+
+                    }else{
+                        that.$notify.error({
+                            title: '错误',
+                            message:  res.data.code ?res.data.code : '用户名或者密码错误',
+                            type: 'success'
+                        });
+                        return;
+
+                    }
+                }.bind(this))
+
+                return;
+               
+
+            },
+            // 注册
+            register(){
+                let arr = Object.values(this.registerFrom);
+                let that = this;
+                for(let item of arr){
+                    if(!item){
+                        that.$notify.error({
+                            title: '错误',
+                            message:  '请将信息填写正确',
+                            type: 'success'
+                        });
+                        return;
+                    }
+                }
+
+                console.log(this.registerFrom);
+                this.$http({
+                    method: 'post',
+                    url: this.urlPort[0],
+                    data: Qs.stringify(this.registerFrom)
+                })
+                .then(function (res) {
+                    console.log(res)
+                    if(res.data.success){
+                        that.$notify({
+                            title: '成功',
+                            message: "注册成功",
+                            type: 'success',
+                        });
+                        that.optionstype = 1;
+
+                    }else{
+                        that.$notify.error({
+                            title: '错误',
+                            message:  res.data.code ? res.data.code :"网络错误" ,
+                            type: 'success'
+                        });
+
+                    }
+                }.bind(this))
+
+            },
+            // 操作类型
+            mouseClick(value){
+                console.log('mouseclick---------'+value)
+                switch(value){
+                    case "register" : this.optionstype = 1 ;  break;
+                    case 'login' :  this.optionstype = 2 ; break; 
+                }
+                console.log(this.optionstype);
+
+            },
+
 			
 			
 		},
@@ -108,7 +242,7 @@
 input{
     background: transparent;
     border: none;
-    color: white;
+    color: #000;
     
 }
 input:focus{outline:none;}
@@ -253,11 +387,14 @@ input:focus{outline:none;}
                     }
                 }
                 .register_wrap{
-                    height: 19%;
+                    height: 17%;
                     color: #030d30;
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    span{
+                        cursor: pointer;
+                    }
                 }
 
 

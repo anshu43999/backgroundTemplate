@@ -39,6 +39,9 @@ import axios from 'axios'
 Vue.prototype.apiRoot ='http://192.168.1.252:8084/unitportSystem/';//su
 
 
+// Vue.prototype.apiRoot = 'http://192.168.1.233:8085/unitportSystem/' // zhou
+
+
 // Vue.prototype.apiRoot ='http://my.ityyedu.com/committeeSystem/';
 
 

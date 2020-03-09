@@ -20,7 +20,7 @@
                  <i class="iconfont iconxiajiantou"></i> -->
                 <el-dropdown @command="handleCommand">
                     <span class="el-dropdown-link">
-                        <span class="username">{{user.userName}}</span>
+                        <span class="username">{{userName}}</span>
                         <i class="iconfont iconxiajiantou"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
@@ -36,12 +36,11 @@
 </template>
 <script>
     require("../../../assets/style/index/index.css");
-    // import { mapState,mapMutations,mapGetters,mapActions} from 'vuex';
+    import { mapState,mapMutations,mapGetters,mapActions} from 'vuex';
     export default {
         name: "Header",
         computed: {
-            // ...mapState(['userName']),
-            // ...mapGetters(["libraryId","libraryName","userName","roleName","userBSF"]),
+            ...mapGetters(['userName']),
         },
         methods: {
             // ...mapMutations(['logout']),
