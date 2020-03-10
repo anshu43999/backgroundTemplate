@@ -6,7 +6,9 @@ body, ol, ul, li, dl, h1, h2, h3, h4, h5, h6, p, input, textarea, a ,img{
   list-style: none;
   font-family: "msyh";
   text-decoration: none;
-  font-size: 0.14rem; }
+  font-size: 0.14rem; 
+  letter-spacing: 2px;
+}
 
   
 

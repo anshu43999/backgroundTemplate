@@ -233,7 +233,7 @@
 	}
 	.el-breadcrumb>span:last-child>.el-breadcrumb__inner.is-link{
 		color: #333333!important;
-		/* font-weight: bold!important; */
+		font-weight: normal!important;
 	}
 	.el-breadcrumb__inner.is-link{
 		font-weight: normal!important;

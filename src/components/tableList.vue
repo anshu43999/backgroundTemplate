@@ -33,9 +33,7 @@
                 label="传输设备数"
                 >
             </el-table-column>
-            
         </template>
-
 
         <template v-if='type === 2'>
             <el-table-column
@@ -55,16 +53,6 @@
                 prop="ip"
                 label="IP地址">
             </el-table-column>
-            <!-- <el-table-column
-                fixed="right"
-                align='center'
-                label="操作"
-                width="180">
-                <template slot-scope="scope">
-                    <el-button @click="handleClick(scope.row)" type="text" size="small">  <i class="iconfont iconrizhi1"></i>   日志详情</el-button>
-                </template>
-            </el-table-column> -->
-
         </template>
 
         <el-table-column
@@ -108,12 +96,7 @@ computed: {},
 watch: {},
 //方法集合
 methods:{
-    handleClick(row,code){
-        console.log(row);
-        console.log(row.id);
-        console.log(code);
-    
-
+    handleClick(row,code){  
         switch(code){
             case 'detail' : this.$router.push({path : 'logManagement/logDetails',query : { time : row.time ,number:row.number,transmissionCapacity : row.transmissionCapacity ,ipNumber : row.ipNumber  }}); break;
             case 'edit' :   this.$emit('operate',{ip : row.ip, code:code,id:row.id});  break;
@@ -127,9 +110,7 @@ created() {
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
 mounted() {
-    console.log(this.tbTaskH);
-    console.log(window.getComputedStyle(this.$refs.element).height)
-    console.log(this.type);
+    
 },
 beforeCreate() {}, //生命周期 - 创建之前
 beforeMount() {}, //生命周期 - 挂载之前

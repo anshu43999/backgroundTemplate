@@ -26,6 +26,10 @@
                 
             </div>
 
+            <!-- <el-button type="primary" round ><i class="iconfont iconseach"></i> 主要按钮</el-button> -->
+
+
+
             <div class="optionsBtn" @click="topOptions('cancel')">
                 <i class="iconfont iconcancel"></i>
                 <span>取消</span>
@@ -243,7 +247,8 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
         display: flex;
         flex-direction: column;
         .mainBodyHeader{
-            height: 7%;
+            // height: 7%;
+            height: 60px;
             border-bottom: 1px solid #dddddd;
             display: flex;
             flex-direction: row;
@@ -254,8 +259,8 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
             }
             .optionsBtn{
                 cursor: pointer;
-                width: 6%;
-                height: 70%;
+                width: 80px;
+                height: 32px;
                 display: flex;
                 align-items: center;
                 margin-left:41px;
@@ -263,7 +268,11 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
                 border-radius: 18px;
                 color: #ffffff;
                 i{
-                    margin: 0 10% 0 15%; 
+                    font-size: 12px;
+                    margin: 0 8% 0 12%; 
+                }
+                span{
+                    letter-spacing: 2px;
                 }
             }
         }

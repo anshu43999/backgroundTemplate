@@ -25,11 +25,11 @@
             </div>
 
             <div class="addWrap">
-                <!-- <div class="addBtn">
+                <div class="addBtn"  @click="handleClick('add')">
                     <i class="iconfont iconxinzenghuizong"></i>
                     <span>新增配置</span>
-                </div> -->
-                <el-button class='addBtn'  round type="primary" round size="small" @click="handleClick('add')"><i class="iconfont iconxinzenghuizong"></i>新增配置</el-button>
+                </div>
+                <!-- <el-button class='addBtn'  round type="primary"  size="small" @click="handleClick('add')"><i class="iconfont iconxinzenghuizong"></i>新增配置</el-button> -->
             </div>
 
 
@@ -113,7 +113,6 @@ watch: {},
 methods: {
     // 新增配置  
     handleClick(value){
-        console.log(value);
         this.$emit('operate',{code : value})
     },
     // 双层操作方法
@@ -132,7 +131,6 @@ methods: {
             data: Qs.stringify(data)
         })
         .then(function (res) {
-            console.log(res)
             this.tableData  = res.data;
             // number   传输总量 // ipNumber     设备数// transmissionCapacity  传输总量  // time    日期
             
@@ -188,7 +186,6 @@ methods: {
         .then(function (res) {
             // 这里返回 一条 {}
             this.tableData = [];    // 清除 tableData
-            console.log(res.data);
             this.tableData = res.data;
             this.goPage(1,8)
         }.bind(this))
@@ -210,7 +207,6 @@ created() {
 //生命周期 - 挂载完成（可以访问DOM元素）
 mounted() {
 
-    console.log(this.$refs.tables.$el.clientHeight)
     this.tbTaskH = this.$refs.tables.$el.clientHeight;
 
     this.getList();
@@ -261,7 +257,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
         display: flex;
         flex-direction: column;
         .mainBodyHeader{
-            height: 7%;
+            height: 60px;
             border-bottom: 1px solid #dddddd;
             display: flex;
             flex-direction: row;
@@ -272,8 +268,8 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
             }
             .optionsBtn{
                 cursor: pointer;
-                width: 6%;
-                height: 70%;
+                width: 80px;
+                height: 32px;
                 display: flex;
                 align-items: center;
                 margin-left:41px;
@@ -281,7 +277,8 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
                 border-radius: 18px;
                 color: #ffffff;
                 i{
-                    margin: 0 10% 0 15%; 
+                    font-size: 12px;
+                    margin: 0 8% 0 12%; 
                 }
             }
             .addWrap{
@@ -292,18 +289,21 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
                 align-items: center;
                 justify-content: right;
                 .addBtn{
-                    margin-right:41px;
-                    // width: 13%;
-                    // height: 70%;
-                    // display: flex;
-                    // align-items: center;
                     // margin-right:41px;
-                    // background: #61baef;
-                    // border-radius: 18px;
-                    // color: #ffffff;
-                    // i{
-                    //     margin: 0 10% 0 15%; 
-                    // }
+                    // height: 100%;
+                    cursor: pointer;
+                    width: 125px;
+                    height: 32px;
+                    display: flex;
+                    align-items: center;
+                    margin-right:41px;
+                    background: #61baef;
+                    border-radius: 18px;
+                    color: #ffffff;
+                    i{
+                        font-size: 12px;
+                        margin: 0 10% 0 15%; 
+                    }
                 }
             }
         }

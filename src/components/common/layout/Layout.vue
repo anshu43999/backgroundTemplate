@@ -132,22 +132,21 @@
                     this.shade = false;
                     return;
                 }
-                console.log(this.btnType);   // 开始判断  按键 btntype  类型
-                console.log(this.userName);
-                console.log(this.deleteId);
+                // console.log(this.btnType);   // 开始判断  按键 btntype  类型
+                // console.log(this.userName);
+                // console.log(this.deleteId);
                 let data = {};
 
                 // 请求 http 
                 let that = this;
                 function sendReqest(url,data,msg){
-                    console.log(that);
                     that.$http({
                         method: 'post',
                         url: url,
                         data: Qs.stringify(data)
                     })
                     .then(function (res) {
-                        console.log(res)
+
                         if(res.data.success){
                             that.$refs.mainBody.getList();
                             that.$notify({
@@ -167,7 +166,7 @@
                 // 判断ip地址的可用性
                 let ipRegular = /((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}/g;
                 let ipResult = ipRegular.test(this.ipDetail)
-                console.log(ipResult);
+
 
                 switch(this.btnType){
                     case 'add' :
@@ -215,14 +214,13 @@
 
                 }
 
-                console.log(value);
+
                 this.shade = false;
 
             },
             // 双层  子传父  方法
             operate(value){
-                console.log("layout------------"+ value);
-                console.log(value);
+
 
                 switch(value.code){
                     case 'add' :   this.btnType = 'add' ;  this.ipDetail=''; this.units = this.userName ; this.shade = true;  this.shadeType = 1; break;
@@ -507,8 +505,12 @@ input{
     border-color: #ee320f;
 }
 
-   
+// 
+.el-breadcrumb__inner a, .el-breadcrumb__inner.is-link {
+    font-weight: normal!important;
+}
 
+   
 
 
 </style>

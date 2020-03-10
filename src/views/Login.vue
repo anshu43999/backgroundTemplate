@@ -23,7 +23,7 @@
                             <div class="password_wrap">
                                 <div class="info_wrap">
                                     <i class="iconfont iconmima"></i>
-                                    <input type="password" v-model="loginFrom.userPass" placeholder="请输入密码">
+                                    <input type="password" v-model="loginFrom.userPass" @keyup.enter="login()" placeholder="请输入密码">
 
                                 </div>
                             </div>
@@ -47,14 +47,14 @@
                             </div>
                             <div class="username_wrap">
                                 <div class="info_wrap">
-                                    <i class="iconfont iconwulumuqishigongandashujuguanlipingtai-ico-"></i>
+                                    <i class="iconfont iconxiangmumiyue"></i>
                                     <input type="text" v-model="registerFrom.registrationCode" placeholder="请输入注册码">
                                 </div>
                             </div>
                             <div class="password_wrap">
                                 <div class="info_wrap">
                                     <i class="iconfont iconmima"></i>
-                                    <input type="password" v-model="registerFrom.userPass" placeholder="请输入密码">
+                                    <input type="password" v-model="registerFrom.userPass" @keyup.enter="register()" placeholder="请输入密码">
 
                                 </div>
                             </div>
@@ -116,7 +116,6 @@
             ...mapMutations(['setUserInfo']),
             // 登录
             login(){
-                console.log('登录')
                 let arr = Object.values(this.loginFrom);
                 let that = this;
                 for(let item of arr){
@@ -136,7 +135,6 @@
                     data: Qs.stringify(this.loginFrom)
                 })
                 .then(function (res) {
-                    console.log(res.data.success);
                     if(res.data.success){
                          this.$router.push({ path : '/index/logManagement' , query : { }  })
                         let payload = {
@@ -176,14 +174,12 @@
                     }
                 }
 
-                console.log(this.registerFrom);
                 this.$http({
                     method: 'post',
                     url: this.urlPort[0],
                     data: Qs.stringify(this.registerFrom)
                 })
                 .then(function (res) {
-                    console.log(res)
                     if(res.data.success){
                         that.$notify({
                             title: '成功',
@@ -205,12 +201,11 @@
             },
             // 操作类型
             mouseClick(value){
-                console.log('mouseclick---------'+value)
+
                 switch(value){
                     case "register" : this.optionstype = 1 ;  break;
                     case 'login' :  this.optionstype = 2 ; break; 
                 }
-                console.log(this.optionstype);
 
             },
 
@@ -227,7 +222,6 @@
 		directives:{
 			focus:{
 				inserted : function (el,{value}) {
-					// console.log(el,{value})
 					if(value){
 						el.focus();
 					}
@@ -243,6 +237,7 @@ input{
     background: transparent;
     border: none;
     color: #000;
+    font-size: .18rem;
     
 }
 input:focus{outline:none;}
@@ -319,21 +314,24 @@ input:focus{outline:none;}
                 height: 72%;
                 margin: 20% 11% 8% 12%;
                 .username_wrap{
+                    .info_wrap{
+                        background: #ffffff;
+                    }
                     height: 27%;
                     display: flex;
                     justify-content: center;
                     align-items: center;
                     .info_wrap{
                         width: 100%;
-                        height: 70%;
+                        height: 60%;
                         border-radius: 4px;
-                        border : 2px solid #04113f;
+                        border : 1px solid #04113f;
                         display: flex;
                         justify-content: start;
                         align-items: center;
 
                         i{
-                            font-size: .3rem;
+                            font-size: .25rem;
                             margin-left:.3rem; 
                             margin-right:.3rem; 
                         }
@@ -349,15 +347,16 @@ input:focus{outline:none;}
                     justify-content: center;
                     align-items: center;
                     .info_wrap{
+                        background: #ffffff;
                         width: 100%;
-                        height: 70%;
+                        height: 60%;
                         border-radius: 4px;
-                        border : 2px solid #04113f;
+                        border : 1px solid #04113f;
                         display: flex;
                         justify-content: start;
                         align-items: center;
                         i{
-                            font-size: .3rem;
+                            font-size: .25rem;
                             margin-left:.3rem; 
                             margin-right:.3rem; 
 
@@ -375,7 +374,9 @@ input:focus{outline:none;}
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        height: 43%;
+                        height: 60%;
+                        font-size: .23rem;
+                        letter-spacing: 5px;
                         color: #ffffff;
                         background-image: linear-gradient(90deg, 
                             #05217b 0%, 
@@ -394,6 +395,8 @@ input:focus{outline:none;}
                     align-items: center;
                     span{
                         cursor: pointer;
+                        font-size: .18rem;
+                        letter-spacing: 5px;
                     }
                 }
 

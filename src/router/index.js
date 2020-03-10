@@ -56,7 +56,13 @@ export default new Router({
                     name: '访问测试',
                     component: () => import("../views/pages/visitTest"),
                 },
+                
             ]
+        },
+        {
+            path: "/printTable",
+            name: '打印',
+            component: () => import("../views/pages/printTable"),
         },
 
     ]

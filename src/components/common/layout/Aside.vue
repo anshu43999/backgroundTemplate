@@ -52,14 +52,14 @@ export default {
     // ]),
     activePath() {
       var path = this.$route.path.split("/");
-      console.log(path);
+
       var zpath = path[0];
       for (var i = 1; i <= 2; i++) {
         if (path[i]) {
           zpath += "/" + path[i];
         }
       }
-      console.log(zpath)
+
       return zpath;
     }
   },
@@ -84,13 +84,10 @@ export default {
     ...mapMutations(["slideToggle", "route_click"]),
     ...mapActions(["addAction"]),
     handleOpen(key, keyPath) {
-      // console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-      // console.log(key, keyPath);
     },
     handleSelect(key, keyPath) {
-      			// console.log(key, keyPath);
       this.route_click();
     },
     tostr(num) {

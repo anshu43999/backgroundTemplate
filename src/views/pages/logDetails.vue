@@ -6,37 +6,22 @@
         <p class="nowPosition"></p>
         <breadcrumb class="bread" :breadcrumb="breadcrumb"></breadcrumb>
     </div>
-
     <div class="mainBody">
         <div class="mainBody_title">
             <span>太原市{{dateArr.yyyy}}年{{dateArr.MM}}月{{dateArr.dd}}日12110短信报警抽取日志表</span>
-
+            <div class="iconWrap" @click="exports"> <i class="iconfont icondaochu"></i> </div>
+            <div class="iconWrap" @click="printExcel"> <i class="iconfont iconprint"></i>  </div>
         </div>
-
         <div class='mainBody_filtrate'>
             <span>日期:</span>
-
             <el-input :disabled="true" class="inputs" size=small style="width: 2rem"  v-model="time" ></el-input>
-            <!-- <el-date-picker
-                class="inputs"
-                size=small
-                style="width: 2rem"
-                v-model="filtrate"
-                type="date"
-                placeholder="选择日期">
-            </el-date-picker> -->
-            
             <span>传输总量:</span>
             <el-input :disabled="true" class="inputs" size=small style="width: 2rem"  v-model="number" placeholder="传输总量"></el-input>
-
             <span>传输次数:</span>
             <el-input :disabled="true" class="inputs" style="width: 2rem" size=small v-model="transmissionCapacity" placeholder="传输次数"></el-input>
-
             <span>传输设备数:</span>
             <el-input :disabled="true" class="inputs" style="width: 2rem" size=small v-model="ipNumber" placeholder="传输设备数"></el-input>
-
         </div>
-
         <div class='mainBody_list'>
             <ul>
                 <li v-for="(item,index) in tablePaging" :key="index">
@@ -46,12 +31,9 @@
                     <span class='spanCommon  mainBodyList_address'>{{item.unitName}}</span>
                     <span class='spanCommon  mainBodyList_ipDetail'>IP:{{item.ip}}  </span>
                     <span class='spanCommon  mainBodyList_amount'>传输量：{{item.transmissionCapacity}}</span>
-
                 </li>
             </ul>
-
         </div>
-
         <div class='mainBody_pagination'>
             <div class='pagination_center'>
                 <span class="spanCommon previous" @click="goPage( currentPage-1,8)"> &lt </span>
@@ -61,10 +43,7 @@
                 <span class="spanCommon pageNext" @click="goSpecific">确定</span> 
             </div>
         </div>
-
         <!-- <Paging :tableData='tableData'></Paging> -->
-
-
     </div>
 </div>
 </template>
@@ -132,9 +111,7 @@ methods: {
         this.dateArr.yyyy = arr[0];
         this.dateArr.MM = arr[1];
         this.dateArr.dd = arr[2];
-
         let newTime = this.time.replace(/\./g,'-');
-        console.log(newTime);
         let data = {
             xzqh: this.userId,
             time : newTime
@@ -145,7 +122,6 @@ methods: {
             data: Qs.stringify(data)
         })
         .then(function (res) {
-            console.log(res);
             this.tableData =  res.data;
 
             this.goPage(1,8)
@@ -190,7 +166,38 @@ methods: {
 
         this.getData();
 
-    }
+    },
+    // 导出
+    exports(){
+        console.log(this.time);
+        let time = this.time.replace(/\./g,'-');
+        console.log(time);
+
+
+        //  ip代表日期   state传输总量    transmissionCapacity传输次数    unitName传输次数
+
+        let dataObj = {
+            ip : time,
+            state : this.number ,   
+            transmissionCapacity : this.transmissionCapacity,    
+            unitName : this.ipNumber,
+        }
+
+        let hrefSrc = this.apiRoot+'log/ExportLog?time='+time+'&xzqh='+this.userId+"&logManage="+ JSON.stringify(dataObj)  ;
+
+        console.log(hrefSrc);
+        var jsonObj = JSON.stringify(dataObj)
+
+
+        var loadiframe=document.getElementById('fordownload');
+        loadiframe.src=this.apiRoot+'log/ExportLog?time='+time+'&xzqh=' +this.userId+"&dateTime="+time+'&total='+this.number+'&transmissionCapacity='+this.transmissionCapacity+'&number='+this.ipNumber;
+        console.log(loadiframe.src)
+    },
+    // 打印Excel
+    printExcel(v){
+        let arr =  this.$route.query;
+        this.$router.push({path:'/printTable',query:{ time : arr.time ,number:arr.number,transmissionCapacity : arr.transmissionCapacity ,ipNumber : arr.ipNumber  }})
+    },
 
 
 },
@@ -253,6 +260,14 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
                 text-indent: 25px;
                 font-weight: 550;
             }
+            .iconWrap{
+                cursor: pointer;
+                margin-left: 1.5%;
+                i{
+                    color: #5db6e8;
+                }
+            }
+
             
         }
         .mainBody_filtrate{
