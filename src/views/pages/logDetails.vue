@@ -343,6 +343,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
                 height: 60%;
                 display: flex;
                 .previous{
+                    cursor: pointer;
                     width: 10%;
                     background: #ffffff;
                     border: 1px solid #cccccc;
@@ -362,6 +363,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
                     text-align: center;
                 }
                 .next{
+                    cursor: pointer;
                     width: 10%;
                     background: #ffffff;
                     border: 1px solid #cccccc;

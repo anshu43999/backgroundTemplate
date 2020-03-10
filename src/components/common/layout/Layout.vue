@@ -44,7 +44,7 @@
                 </div>
             </div>
 
-            <div class="box_wrap"   v-if='shadeType === 3'>
+            <div class="box_wrap"  style="width: 500px;height: 427px;"  v-if='shadeType === 3'>
                 <div class='box_userPic'>
                     <i class="iconfont btnClose iconguanbi"  @click="handleClick"></i>
                     <div class="userPortrait">
@@ -298,8 +298,10 @@
             justify-content: center;
             align-items: center;
             .box_wrap{
-                width: 24%;
-                height: 30%;
+                // width: 24%;
+                // height: 30%;
+                width: 463px;
+	            height: 280px;
                 background: #ffffff;
                 border-radius: 8px;
                 padding: 0 1% 0 1%;
