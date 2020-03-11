@@ -6,24 +6,19 @@
         <p class="nowPosition"></p>
         <breadcrumb class="bread" :breadcrumb="breadcrumb"></breadcrumb>
     </div>
-
     <div class="mainBody">
         <div class="mainBodyTop">
             <div class="mainBodyTopLeft">测试说明</div>
             <div class="mainBodyTopRight">
                 <p>访问测试旨在检测接口系统与三台合一之间是否能够正常传输数据。点击"访问测试”按钮开始测试。</p>
                 <p>注：测试完毕后将显示测试结果，测试结果显示前请勿多次点击测试按钮。"</p>
-                
             </div>
-
         </div>
         <div class="mainBodyMiddle">
-            <div class="testsBtn">   
-                    <i class="iconfont iconceshijingli- "></i>
-                    <span>访问测试</span>
-                     
+            <div class="testsBtn" @click="sendTest">   
+                <i class="iconfont iconceshijingli- "></i>
+                <span>访问测试</span> 
             </div>
-
         </div>
         <div class="mainBodyBottom">
             <div class="mainBodyBottomLeft">测试记录 </div>
@@ -31,24 +26,15 @@
                 <div class="record">
                     <ul>
                         <li v-for="(item,index) in testRecord" :key="index">
-                            <span class="spanOne">{{item.time}} </span>
-                            <span class="spanTwo">{{item.purpose}} </span>
-                            <span class="sapnThree success" v-if="item.result === 1" > <i class="iconfont iconchenggong "></i> 测试成功</span>
-                            <span class="sapnThree failed" v-if="item.result === 0" > <i class="iconfont iconanzhuangshibai "></i> 测试失败</span>
-
-
+                            <span class="spanOne">{{item.createTime}}--{{item.state}} </span>
+                            <span class="spanTwo">访问测试... </span>
+                            <span class="sapnThree success" v-if="item.result ==='200'" > <i class="iconfont iconchenggong "></i> 测试成功</span>
+                            <span class="sapnThree failed" v-if="item.result === '400'" > <i class="iconfont iconanzhuangshibai "></i> 测试失败</span>
                         </li>
-
                     </ul>
-
                 </div>
-                
-
             </div>
-
         </div>
-        
-
     </div>
 </div>
 </template>
@@ -57,7 +43,8 @@
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
 import Breadcrumb from '../../components/common/action/Breadcrumb';
-
+import Qs from 'qs';
+import {mapGetters,mapMutations} from 'vuex'
 export default {
 //import引入的组件需要注入到对象中才能使用
 components: {
@@ -66,38 +53,68 @@ components: {
 data() {
 //这里存放数据
 return {
+    urlPort : [this.apiRoot+'accessTest/test',this.apiRoot+'accessTest/findTestList'],
     route:'',
     breadcrumb: {
         search: false,
         searching: '',
     },
-    testRecord : [
-        { time : '2020.08.01--12:00', purpose :'访问测试...', result : 0 },
-        { time : '2020.08.01--12:00', purpose :'访问测试...', result : 1},
-        { time : '2020.08.01--12:00', purpose :'访问测试...', result : 0 },
-        { time : '2020.08.01--12:00', purpose :'访问测试...', result : 1},
-        { time : '2020.08.01--12:00', purpose :'访问测试...', result : 0 },
-        { time : '2020.08.01--12:00', purpose :'访问测试...', result : 1},
-        { time : '2020.08.01--12:00', purpose :'访问测试...', result : 0 },
-        { time : '2020.08.01--12:00', purpose :'访问测试...', result : 1},
-        { time : '2020.08.01--12:00', purpose :'访问测试...', result : 0 },
-        { time : '2020.08.01--12:00', purpose :'访问测试...', result : 1},
-        { time : '2020.08.01--12:00', purpose :'访问测试...', result : 0 },
-        { time : '2020.08.01--12:00', purpose :'访问测试...', result : 1},
-        { time : '2020.08.01--12:00', purpose :'访问测试...', result : 0 },
-        { time : '2020.08.01--12:00', purpose :'访问测试...', result : 1},
-       
-        
+    testRecord : [        
     ]
 
 };
 },
 //监听属性 类似于data概念
-computed: {},
+computed: {
+    ...mapGetters(['userId','permissions','userName'])
+},
 //监控data中的数据变化
 watch: {},
 //方法集合
 methods: {
+    initData(){
+        let data = {
+        xzqh: this.userId
+        }
+        this.$http({
+            method: 'post',
+            url: this.urlPort[1],
+            data: Qs.stringify(data)
+        })
+        .then(function(res){
+            console.log(res); 
+            this.testRecord = res.data
+        }.bind(this))
+    },
+    sendTest(){
+        let data = {
+        xzqh: this.userId,
+        unitName :this.userName,
+        code : this.permissions,
+        }
+        this.$http({
+            method: 'post',
+            url: this.urlPort[0],
+            data: Qs.stringify(data)
+        })
+        .then(function(res){
+            console.log(res); 
+            if(res.data.success){
+                this.$notify({
+                    title: '成功',
+                    message: res.data.code ? res.data.code : '成功',
+                    type: 'success',
+                });
+            }else{
+                this.$notify.error({
+                    title: '错误',
+                    message:  res.data.code ? res.data.code : '网络错误',
+                    type: 'success'
+                });
+            }
+            this.initData();
+        }.bind(this))
+    }
 
 },
 //生命周期 - 创建完成（可以访问当前this实例）
@@ -106,6 +123,7 @@ created() {
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
 mounted() {
+    this.initData();
 
 },
 beforeCreate() {}, //生命周期 - 创建之前
@@ -186,7 +204,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
                 width: 10%;
                 height: 60%;
                 line-height: 48px;
-                border-radius: 20px;
+                border-radius: 24px;
                 background: #61baef;
                 color: #ffffff;
                 display: flex;

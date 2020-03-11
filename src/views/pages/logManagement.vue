@@ -28,13 +28,10 @@
 
             <!-- <el-button type="primary" round ><i class="iconfont iconseach"></i> 主要按钮</el-button> -->
 
-
-
             <div class="optionsBtn" @click="topOptions('cancel')">
                 <i class="iconfont iconcancel"></i>
                 <span>取消</span>
             </div>
-
 
         </div>
         <div class="mainBodyContext">
