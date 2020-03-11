@@ -94,3 +94,15 @@ i{
 .el-table__row--striped{
     /*background: #e5eeff!important;*/
 }
+
+
+
+
+.optionsBtn:active,
+.testsBtn:active,
+button:active,
+.tz_btn:active{
+    transform: scale(.8);
+}
+
+

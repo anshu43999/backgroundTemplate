@@ -267,6 +267,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
                 font-weight: 550;
             }
             .optionsBtn{
+                box-shadow: 0 .03rem .07rem 0 rgba(8, 34, 120, 0.35);
                 cursor: pointer;
                 width: 80px;
                 height: 32px;
@@ -289,6 +290,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
                 align-items: center;
                 justify-content: right;
                 .addBtn{
+                    box-shadow: 0 .03rem .07rem 0 rgba(8, 34, 120, 0.35);
                     // margin-right:41px;
                     // height: 100%;
                     cursor: pointer;
