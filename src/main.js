@@ -11,44 +11,35 @@ import Router from 'vue-router'
 
 
 
-// import VideoPlayer from 'vue-video-player'
-
-// require('video.js/dist/video-js.css')
-// require('vue-video-player/src/custom-theme.css')
-
-
-
-
-
-// Vue.use(VideoPlayer)
-
-
-
 
 Vue.use(Router);
+Vue.use(ElementUI);
+Vue.prototype.$http=axios;
+
+
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location) {
     return originalPush.call(this, location).catch(err => err)
 };
 import axios from 'axios'
 
-// Vue.prototype.apiRoot ='http://192.168.1.252:8086/committeeSystem/';//su
+
 // Vue.prototype.apiRoot ='http://192.168.1.248:8085/committeeSystem/';  //kun
-
-
 Vue.prototype.apiRoot ='http://192.168.1.252:8084/unitportSystem/';//su
-
-
-// Vue.prototype.apiRoot = 'http://192.168.1.233:8085/unitportSystem/' // zhou
-
 
 // Vue.prototype.apiRoot ='http://my.ityyedu.com/committeeSystem/';
 
 
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'; 
 
-Vue.use(ElementUI);
-Vue.prototype.$http=axios;
+
+
+
+
+
+
+
+
+
 
 
 Vue.config.productionTip = false;
