@@ -5,9 +5,8 @@
                 <Tpms-header @operate='operate'></Tpms-header>
             </el-header>
             <el-container class="containerInner">
-                <!-- <el-aside width="3rem" style="background: linear-gradient( rgba(17,81,147,1), rgba(59,62,130,1))"> -->
-                <el-aside width='2.5rem' style="background:#405b88">
-                    
+                <el-aside width='2.4rem' style="background:#e9ebf6">
+
                     <Tpms-sidebar></Tpms-sidebar>
                 </el-aside>
                 <el-container>
@@ -71,7 +70,7 @@
                         style="width: 65%"
                         placeholder="数字签名"
                         v-model="signature"
-                      
+
                         >
                     </el-input>
 
@@ -81,9 +80,9 @@
                     <span> <i class="iconfont  iconmimaxiugai1"></i> <span>密码修改</span></span>
 
                 </div>
-                
+
             </div>
-            
+
         </div>
 
 
@@ -125,7 +124,7 @@
             next()
         },
         methods: {
-            // 操作按钮选择 
+            // 操作按钮选择
             handleClick(value){
                 // 取消 直接 return
                 if(value === 'cancel'){
@@ -137,7 +136,7 @@
                 // console.log(this.deleteId);
                 let data = {};
 
-                // 请求 http 
+                // 请求 http
                 let that = this;
                 function sendReqest(url,data,msg){
                     that.$http({
@@ -170,7 +169,7 @@
 
                 switch(this.btnType){
                     case 'add' :
-                                
+
                                 if(! ipResult){
                                     that.$notify.error({
                                         title: '错误',
@@ -183,19 +182,19 @@
                                 data = {
                                     unitName: this.units,
                                     ip : this.ipDetail
-                                }   
+                                }
                                 sendReqest(this.urlPort[0],data,'添加成功');
                                 break;
-                    case 'delete': 
-                                
+                    case 'delete':
+
                                 data = {
                                     id : this.deleteId
-                                }  
+                                }
                                 sendReqest(this.urlPort[1],data,'删除成功')
-                                
+
                                 break;
-                    
-                    case 'edit': 
+
+                    case 'edit':
                                 if(! ipResult){
                                     that.$notify.error({
                                         title: '错误',
@@ -204,11 +203,11 @@
                                     });
                                     return;
                                 }
-                                
+
                                 data = {
                                     id : this.editId,
                                     ip : this.ipDetail
-                                }  
+                                }
                                 sendReqest(this.urlPort[2],data,'修改成功')
                                 break;
 
@@ -242,7 +241,7 @@
                 // units : '',
                 ipDetail : '',
                 shade : false,   //   编辑操作 遮罩
-                shadeType : 1 ,   //     遮罩类型 
+                shadeType : 1 ,   //     遮罩类型
                 units : '',   // 所属单位
                 signature : '',   //数字签名
                 btnType : '' , // 按钮类型
@@ -277,7 +276,7 @@
                     background: url("../../../../public/static/images/common/bg.png") no-repeat center ;
                     // background-repeat: no-repeat;
                     background-size: contain;
-                    
+
                     // background-position: center top;
                     height: 100%;
                 }
@@ -310,7 +309,7 @@
                     align-items: center;
                     justify-content: center;
                     padding-top: 8%;
-                    
+
                     >span{
                         width: 30%;
                         font-size: 16px;
@@ -321,7 +320,7 @@
                     padding-top: 1%;
                 }
                 .box_topColumn{
-               
+
                     height: 35%;
                     border-bottom: 1px solid #dddddd;
                 }
@@ -339,7 +338,7 @@
                     height: 29%;
                     justify-content: space-around;
 
-                } 
+                }
                 .boxCommonOne{
                     display: flex;
                     align-items: center;
@@ -377,7 +376,7 @@
                     width : 100%;
                     height : 25%;
                     border-top: 1px solid #dddddd;
-                    border-bottom : 1px solid #dddddd; 
+                    border-bottom : 1px solid #dddddd;
                 }
                 .box_signature{
                     width : 100%;
@@ -390,18 +389,18 @@
                     align-items: center;
                     justify-content: flex-end;
                     color: #999999;
-                  
+
                     cursor: pointer;
                     span{
                         i{
                             color: #ffdb8e;
-                            margin-right:2px; 
+                            margin-right:2px;
                             font-size: 20px;
                         }
                         span{
                             border-bottom: 1px solid #999;
                         }
-                        
+
                     }
                 }
 
@@ -409,9 +408,9 @@
 
             }
 
-           
-            
-           
+
+
+
         }
     }
 
@@ -446,13 +445,13 @@
     .el-table::before{
         height: 0;
     }
-    
-    
+
+
     //  input 选中 边框
-    
+
     input{
         outline:none;
-    } 
+    }
     .el-input input{
         outline:none  !important;
         border-radius: 0 !important;
@@ -464,9 +463,9 @@
     .el-select .el-input__inner:focus {
         border-color: #DCDFE6;
     }
-   
 
-   table表头高度     
+
+   table表头高度
 .el-table__body td,.el-table__body th{
     height: .48rem;
     // height: calc(20%);
@@ -480,7 +479,7 @@
 //     height: 100%;
 //     .tbody{
 //         height: 100%;
-            
+
 //         }
 // }
 
@@ -507,12 +506,12 @@ input{
     border-color: #ee320f;
 }
 
-// 
+//
 .el-breadcrumb__inner a, .el-breadcrumb__inner.is-link {
     font-weight: normal!important;
 }
 
-   
+
 
 
 </style>

@@ -1,92 +1,114 @@
 <template>
-    <div class="header">
-        <!--		logo-->
-        <div class="logo">
-            <img class="logoImg" src="static/images/header/logo.png" alt=""/>
-            <span class="systemName">12110 短信报警平台数据接口系统</span>
-        </div>
-        <!--		用户信息-->
-        <div class="headerR" @click="exit">
-            <div class="bell">
-                <img class="bell_img" src="static/images/header/bell.png" alt="">
-<!--                <div class="message"></div>-->
-            </div>
-            <div class="info">
-                <img class="bell_img" src="static/images/header/info.png" alt="">
-            </div>
-            <div class="userInfo">
-                <el-avatar class="userIcon" shape="square" :src="user.squareUrl"></el-avatar>
-                <!-- <span class="username">{{user.userName}}</span>
-                 <i class="iconfont iconxiajiantou"></i> -->
-                <el-dropdown @command="handleCommand">
-                    <span class="el-dropdown-link">
-                        <span class="username">{{userName}}</span>
-                        <i class="iconfont iconxiajiantou"></i>
-                    </span>
-                    <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item command="personalCenter">个人中心</el-dropdown-item>
-                        <el-dropdown-item command="exit">退出</el-dropdown-item>
-                    </el-dropdown-menu>
-                </el-dropdown>
-
-            </div>
-           
-        </div>
+  <div class="header">
+    <!--		logo-->
+    <div class="logo">
+      <img class="logoImg" src="static/images/header/logo.png" alt />
+      <span class="systemName">后台管理系统</span>
     </div>
+    <!--		用户信息-->
+    <div class="headerR">
+      <div class="userInfo" @click="handleChangeRole">
+        <el-avatar :src="user.url"></el-avatar>
+        <span class="username">{{user.userName}}</span>
+      </div>
+
+      <i class="iconfont icontuichu exit" @click="handleExit"></i>
+    </div>
+  </div>
 </template>
 <script>
-    require("../../../assets/style/index/index.css");
-    import { mapState,mapMutations,mapGetters,mapActions} from 'vuex';
-    export default {
-        name: "Header",
-        computed: {
-            ...mapGetters(['userName']),
-        },
-        methods: {
-            // ...mapMutations(['logout']),
-            // ...mapActions([]),
-       
-            handleCommand(command) {
-                switch(command){
-                    case 'personalCenter' :          
-                            // this.$emit('operate','personalCenter')
+require("../../../assets/style/index/index.css");
+import { mapMutations, mapGetters} from "vuex";
 
-                            this.$emit('operate',{code:'personalCenter'})
+export default {
+  name: "Header",
+  computed: {
+    ...mapGetters(["userName"]),
+  },
+  methods: {
+    // ...mapMutations(['logout']),
+    // ...mapActions([]),
+    ...mapMutations(['setUserInfo']),
+    handleCommand(command) {
+      switch (command) {
+        case "personalCenter":
+          // this.$emit('operate','personalCenter')
 
-                            // {code:code,id:row.id}
-                    break;
-                    case 'exit' : this.$confirm('您要退出登录, 是否继续?', '提示', {
-                                        confirmButtonText: '确定',
-                                        cancelButtonText: '取消',
-                                        type: 'warning'
-                                    }).then(() => {
-                                        //点击确定的回调
-                                        this.$router.push({path: '/login'});
-                                    }).catch(() => {
-                                        //点击取消的回调
-                                        this.isExit=false;
-                                    }); 
-                    break;
+          this.$emit("operate", { code: "personalCenter" });
 
-
-                }
-
-                
-            },
-            exit() {
-                this.isExit=true;
-            },
-        },
-        data() {
-            return {
-                user:{
-                    squareUrl: 'static/images/header/admin.png',
-                    userName: '太原市公安局110指挥中心'
-                },
-                msgNum:2,
-                isExit:false
-            }
+          // {code:code,id:row.id}
+          break;
+        case "exit":
+          this.$confirm("您要退出登录, 是否继续?", "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning",
+          })
+              .then(() => {
+                //点击确定的回调
+                this.$router.push({ path: "/login" });
+              })
+              .catch(() => {
+                //点击取消的回调
+                this.isExit = false;
+              });
+          break;
+      }
+    },
+    handleExit() {
+      this.$router.push({
+        name: "登录",
+      });
+      sessionStorage.clear();
+    },
+    handleChangeRole(){
+      this.$prompt('请输入角色', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+      }).then(({ value }) => {
+        let payload
+        if(value==="超级管理员"){
+          payload = {
+            userName: "admin",
+            roleName:'超级管理员',
+            userId:"1"
+          }
+        }else if(value==="预审人员"){
+          payload = {
+            userName: "",
+            roleName:'预审人员',
+            userId:"32",
+            area:"一枢纽",
+            areaId:"1"
+          }
+        }else if(value==="甲方负责人"){
+          payload = {
+            userName: "",
+            roleName:'甲方负责人',
+            userId:"3"
+          }
+        }else {
+          payload={
+            userName: "",
+            roleName:'配置人员',
+            userId:""
+          }
         }
-    }
+        this.setUserInfo(payload);
+        this.$router.go(0);
+      })
+    },
+  },
+  data() {
+    return {
+      user: {
+        url: "static/images/header/admin.png",
+        userName: sessionStorage.getItem("roleName"),
+      },
+      msgNum: 2,
+      isExit: false,
+    };
+  },
+};
 </script>
 

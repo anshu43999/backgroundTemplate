@@ -28,7 +28,7 @@
                                 </div>
                             </div>
                             <div class="login_wrap" @click="login">
-                                <span>登录</span>    
+                                <span>登录</span>
                             </div>
                             <div class="register_wrap">
                                 <span @click="mouseClick('login')"><i class="iconfont iconfeiji"></i>去注册</span>
@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="login_wrap" @click="register">
-                                <span>注册</span>    
+                                <span>注册</span>
                             </div>
                             <div class="register_wrap">
                                 <span @click="mouseClick('register')"><i class="iconfont iconfeiji"></i>去登录</span>
@@ -68,10 +68,10 @@
                     </div>
 
                 </div>
-              
-                       
 
-               
+
+
+
                 <video autoplay loop muted playsinline src="../assets/video/dongtu1.mp4" class="fillWidth" style="width= 100%; height=100%; object-fit: fill"></video>
             </div>
         </div>
@@ -115,7 +115,7 @@
 		methods : {
             ...mapMutations(['setUserInfo']),
             // 登录
-            login(){
+            /*login(){
                 let arr = Object.values(this.loginFrom);
                 let that = this;
                 for(let item of arr){
@@ -156,11 +156,11 @@
                 }.bind(this))
 
                 return;
-               
 
-            },
+
+            },*/
             // 注册
-            register(){
+            /*register(){
                 let arr = Object.values(this.registerFrom);
                 let that = this;
                 for(let item of arr){
@@ -198,26 +198,34 @@
                     }
                 }.bind(this))
 
-            },
+            },*/
             // 操作类型
             mouseClick(value){
 
                 switch(value){
                     case "register" : this.optionstype = 1 ;  break;
-                    case 'login' :  this.optionstype = 2 ; break; 
+                    case 'login' :  this.optionstype = 2 ; break;
                 }
 
             },
 
-			
-			
+			      login(){
+              let payload = {
+                userName: "admin",
+                roleName: '超级管理员',
+                userId: "1"
+              }
+              this.setUserInfo(payload);
+              this.$router.push("/index");
+            }
+
 		},
 		mounted(){
 
-		
 
-			
-		
+
+
+
 		},
 		directives:{
 			focus:{
@@ -238,7 +246,7 @@ input{
     border: none;
     color: #000;
     font-size: .18rem;
-    
+
 }
 input:focus{outline:none;}
 .copyright{
@@ -288,9 +296,9 @@ input:focus{outline:none;}
             background: url('../assets/images/guohui.png');
             background-repeat: no-repeat;
             background-position: center;
-            background-size:100% 100%; 
+            background-size:100% 100%;
             z-index: 1000;
-            margin-right:1rem; 
+            margin-right:1rem;
         }
     }
     .video-container .loginBodyWrap{
@@ -307,7 +315,7 @@ input:focus{outline:none;}
             height:100%;
             margin-right: 5%;
             border-radius: 5px;
-            box-shadow: 0px 3px 32px 0px 
+            box-shadow: 0px 3px 32px 0px
 		    rgba(49, 114, 188, 0.64);
             .loginBodybox_main{
                 width: 77%;
@@ -332,8 +340,8 @@ input:focus{outline:none;}
 
                         i{
                             font-size: .25rem;
-                            margin-left:.3rem; 
-                            margin-right:.3rem; 
+                            margin-left:.3rem;
+                            margin-right:.3rem;
                         }
                         input{
                             width: 70%;
@@ -357,8 +365,8 @@ input:focus{outline:none;}
                         align-items: center;
                         i{
                             font-size: .25rem;
-                            margin-left:.3rem; 
-                            margin-right:.3rem; 
+                            margin-left:.3rem;
+                            margin-right:.3rem;
 
                         }
 
@@ -378,10 +386,10 @@ input:focus{outline:none;}
                         font-size: .23rem;
                         letter-spacing: 5px;
                         color: #ffffff;
-                        background-image: linear-gradient(90deg, 
-                            #05217b 0%, 
+                        background-image: linear-gradient(90deg,
+                            #05217b 0%,
                             #030d2f 100%);
-                        box-shadow: 0px 7px 13px 0px 
+                        box-shadow: 0px 7px 13px 0px
                             rgba(8, 34, 120, 0.35);
                         border-radius: 4px;
                         border: solid 2px #04113f;
@@ -406,7 +414,7 @@ input:focus{outline:none;}
         }
     }
 
-    
+
     .video-container video {
         width:100%;
         height: 100%;

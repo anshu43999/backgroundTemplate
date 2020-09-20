@@ -1,10 +1,14 @@
 @charset "UTF-8";
 .el-header {
-    height: 0.8rem!important;
-    line-height: 0.8rem;
-    padding: 0 !important;
+    height: 0.56rem!important;
+    line-height: 0.56rem;
+    padding: .13rem .19rem;
+    box-sizing: border-box;
+    box-shadow: 0rem 0rem 0.16rem 0rem
+    rgba(0, 0, 0, 0.1);
     position: relative;
     z-index: 6;
+    background: #23a4ec url("../../../../public/static/images/header/header_bg.png") no-repeat;
 }
 .el-menu{
     margin-top:25% ;
@@ -13,42 +17,35 @@
 div.header {
     width: 100%;
     height: 100%;
-    background: url("../../../../public/static/images/header/header_bg.png") no-repeat;
     background-size: cover;
 }
 
 div.header .logo {
-    z-index: 999;
     float: left;
     height: 100%;
-    margin-left: 0.32rem;
+    display: flex;
+    flex-direction: row;
 }
 
 div.header .logoImg {
-    position: relative;
-    top: 50%;
-    margin: auto;
-    height: 0.48rem;
-    transform: translateY(-50%);
+    height: 100%;
 }
 
 .systemName{
-	line-height: 0.6rem;
-	letter-spacing: 1px;
-	color: #333;
-	font-size: 0.22rem;
-	margin-left: 0.24rem;
-    font-weight: bold;
+    line-height: .3rem;
+    letter-spacing: 2px;
+    color: #fff;
+    font-size: 0.22rem;
+    margin-left: 0.12rem;
+    font-weight: 500;
 }
 
 /*头部管理员信息*/
 div.header div.headerR {
-	height: 0.4rem;
-    position: absolute;
-	top:0;
-	bottom:0;
-	margin: auto;
-	right: 0.54rem;
+    height: 0.3rem;
+    float: right;
+    width: 2.4rem;
+    margin-right: .21rem;
 }
 
 .bell{
@@ -70,12 +67,31 @@ div.header div.headerR {
     transform: translateY(-50%);
 }
 
-.userInfo{
-    /* width: 0.94rem; */
-    height: 0.4rem;
-    float: left;
-    line-height: 0.4rem;
-    margin: 0 0.08rem;
+.userInfo::after{
+    content:"";
+    width: 2px;
+    height: .21rem;
+    background-color: #fff;
+    float: right;
+    position: absolute;
+    right: 0;
+}
+.el-dropdown{
+    width: 1.9rem;
+    height: 100%;
+    display: flex;
+    position: relative;
+}
+.el-dropdown-link{
+    width: 100%;
+    height: 100%;
+    line-height: .3rem;
+    display: flex;
+}
+.el-avatar{
+    width: 0.26rem;
+    height: 0.26rem;
+    background-color: #ffffff;
 }
 
 .bell_img{
@@ -103,14 +119,31 @@ div.header div.headerR {
     width: 0.4rem;
     height: 0.4rem;
     float: left;
+    display: flex;
+    flex-direction: row;
+}
+.userInfo{
+    width: 1.9rem;
+    height: 0.3rem;
+    float: left;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.userInfo .username{
+    color: #fefefe;
+    font-size: .14rem;
+    margin-left: .16rem;
+    margin-right: .03rem;
+}
+.userInfo .el-dropdown{
+    height: 100%;
 }
 
-.userInfo .username{
-    margin-left: 0.08rem;
-    margin-right: 0.16rem;
-    font-size: 0.14rem;
-    float: left;
-    color: #333;
+.userInfo .el-icon-arrow-down.el-icon--right{
+    line-height: .3rem;
+    color:#fff;
 }
 
 .userInfo .iconfont{
@@ -120,14 +153,14 @@ div.header div.headerR {
 
 .exit {
     cursor: pointer;
-    background-color: #fff;
-    border-radius: 10px;
-    width: 1rem;
-    height: .5rem;
-    text-align: center;
-    position: absolute;
-    top: .4rem;
-    right: 0;
-    box-shadow: 0 .06rem .08rem 0 rgba(20, 25, 44, 0.4);
-    font-size: .15rem;
+    color: #fff;
+    float: right;
+    line-height: .32rem;
+}
+.el-dropdown-menu__item{
+    font-size: .14rem;
+    padding: 0 .16rem;
+}
+.el-dropdown-menu{
+    padding: 0;
 }

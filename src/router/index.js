@@ -34,9 +34,9 @@ const routes =[
         component: Layout,
         children: [
             {
-                path: "logManagement",
-                name: '日志管理',
-                component: () => import("../views/pages/logManagement"),
+                path: "test",
+                name: '测试',
+                component: () => import("../views/pages/Test"),
             },
             {
                 path: "logManagement/logDetails",
@@ -53,7 +53,7 @@ const routes =[
                 name: '访问测试',
                 component: () => import("../views/pages/visitTest"),
             },
-            
+
         ]
     },
     {
@@ -83,9 +83,9 @@ const router = new Router({ routes })
 //         //		userAuth=userAuth.split(',');
 //         //	  	if (userAuth.includes('新建扦样登记表')) {
 //         //
-//         //	    	next({path: '/index/grainDepot'})	  	
-//         //	  	}else{	  		
-//         //	  		next({path: '/index/sampling'})	  	
+//         //	    	next({path: '/index/grainDepot'})
+//         //	  	}else{
+//         //	  		next({path: '/index/sampling'})
 //         //	  	}
 //         next()
 //     } else if (to.matched.some(record => record.meta.needAuth)) {
